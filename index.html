@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Practica Final Tema 4</title>
+  <link rel="stylesheet" href="app/assets/css/style.css" />
+  <link rel="script" href="https://code.jquery.com/jquery-4.0.0.min.js" />
+</head>
+
+<body>
+  <div id="container">
+    <div class="card login">
+      <h1 class="card-title"> Bienvenido</h1>
+      <div class="card-content">
+        <button id="loginBtn">Iniciar Sesión</button>
+        <button id="registerBtn">Registrarse</button>
+      </div>
+    </div>
+
+    <div class="card hidden">
+      <h1 class="card-title"> Iniciar Sesión</h1>
+      <div class="card-content">
+        <input type="text" id="loginUsername" placeholder="Usuario" />
+        <input type="password" id="loginPassword" placeholder="Contraseña" />
+        <button id="submitLogin">Entrar</button>
+      </div>
+    </div>
+
+    <div class="card hidden">
+      <h1 class="card-title"> Registrarse</h1>
+      <div class="card-content">
+        <input type="text" id="registerUsername" placeholder="Usuario" />
+        <input type="password" id="registerPassword" placeholder="Contraseña" />
+        <input type="email" id="registerEmail" placeholder="Correo Electrónico" />
+        <input type="number" id="registerHeight" placeholder="Altura (cm)" />
+        <input type="number" id="registerWeight" placeholder="Peso (kg)" />
+        <input type="date" id="registerDOB" placeholder="Fecha de Nacimiento" />
+        <button id="submitRegister">Registrar</button>
+      </div>
+    </div>
+    <script src="codigo.js"></script>
+  </div>
+</body>
+
+</html>
