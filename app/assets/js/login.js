@@ -11,3 +11,30 @@ function changePic() {
     const nextIdx = (idx + 1) % images.length;
     $("#rotationImage").attr("src", "app/assets/images/" + images[nextIdx]);
 }
+
+
+$("#loginBtn").on("click", function () {
+    if ($("#loginCard").hasClass("hidden")) {
+        $("#loginCard").removeClass("hidden");
+    } else {
+        $("#loginCard").addClass("hidden");
+    }
+
+    if (!$("#registerCard").hasClass("hidden")) {
+        $("#registerCard").addClass("hidden");
+    }
+});
+
+$("#registerBtn").on("click", function () {
+    if ($("#registerCard").hasClass("hidden")) {
+        $("#registerCard").removeClass("hidden");
+    } else {
+        $("#registerCard").addClass("hidden");
+    }
+    if (!$("#loginCard").hasClass("hidden")) {
+        $("#loginCard").addClass("hidden");
+    }
+});
+
+
+
