@@ -28,4 +28,10 @@ class Usuario {
   comprobarIgualdad(otraPersona) {
     return this.usuario === otraPersona.usuario && this.contraseña === otraPersona.contraseña;
   }
+
+  comprobarIgualdadStr(usuario, correo) {
+    return this.usuario === usuario && this.correo === correo;
+  }
 }
+
+export default Usuario;
