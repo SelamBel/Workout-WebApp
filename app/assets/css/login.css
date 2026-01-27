@@ -1,0 +1,6 @@
+#themeToggle {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    background-color: var(--contrary-color);
+}
