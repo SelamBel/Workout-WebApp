@@ -4,3 +4,11 @@
     right: 30px;
     background-color: var(--contrary-color);
 }
+
+#themeToggle:hover{
+    background-color: var(--contrary-accent-color);
+}
+
+#rotationImage {
+    max-width: 50%;
+}
