@@ -1,10 +1,10 @@
 import Usuario from "./Usuario.js";
 
-const STORAGE_KEY = "usuariosApp";
+const ALL_USERS = "allUsers";
 const CURRENT_USER = "currentUser";
 
 function obtenerUsuarios() {
-    const usuariosJSON = localStorage.getItem(STORAGE_KEY);
+    const usuariosJSON = localStorage.getItem(ALL_USERS);
     return usuariosJSON ? JSON.parse(usuariosJSON) : [];
 }
 
@@ -31,7 +31,7 @@ export function guardarUsuario(usuario) {
     });
 
     const userJSON = JSON.stringify(usuarios);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(usuarios));
+    localStorage.setItem(ALL_USERS, JSON.stringify(usuarios));
     localStorage.setItem(CURRENT_USER, JSON.stringify({
         usuario: usuario.usuario,
         contraseña: usuario.contraseña,
@@ -88,6 +88,21 @@ export function getCurrentUser() {
         );
     }
     return usuario;
+}
+
+export function getUsers() {
+    const usuariosJSON = localStorage.getItem(ALL_USERS);
+    const usuarios = [];
+    if (usuariosJSON) {
+        const usuariosArray = JSON.parse(usuariosJSON);
+        for (const u of usuariosArray) {
+            usuarios.push({
+                usuario: u.usuario,
+                correo: u.correo
+            });
+        }
+    }
+    return usuarios;
 }
 
 

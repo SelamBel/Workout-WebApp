@@ -1,4 +1,4 @@
-import { logOutUsuario, getCurrentUser } from "./userLocalStorage.js";
+import { logOutUsuario, getCurrentUser, getUsers } from "./userLocalStorage.js";
 import Usuario from "./Usuario.js";
 import * as CardMaker from "./cardMaker.js";
 
@@ -23,7 +23,7 @@ function exitIfNotLogged() {
 function bindEvents() {
     $("#mainLogOutBtn").on("click", logOut);
     $("#mainShowProfileBtn").on("click", showProfile);
-    $("#mainShowUsersBtn").on("click", notImplementedAlert);
+    $("#mainShowUsersBtn").on("click", showUsers);
     $("#mainOpenForum").on("click", notImplementedAlert);
     $("#mainAddWorkOuts").on("click", notImplementedAlert);
     $("#mainShowWorkOuts").on("click", notImplementedAlert);
@@ -53,6 +53,20 @@ function showProfile() {
     CardMaker.addElement(content, "p", { text: `Peso: ${currentUser.peso} kg` });
     CardMaker.addElement(content, "p", { text: `Edad: ${currentUser.edad} años` });
     CardMaker.addElement(content, "p", { text: `Género: ${currentUser.genero}` });
+    container.append(card);
+}
+
+function showUsers() {
+    $(".created-card").remove();
+    const container = $("#container");
+    const card = CardMaker.createCard();
+    CardMaker.setCardTitle(card, "Lista de Usuarios");
+    const content = CardMaker.createCardContent(card);
+    const usuarios = getUsers();
+    const userList = CardMaker.addElement(content, "ul");
+    usuarios.forEach((usuario, i) => {
+        CardMaker.addElement(userList, "li", { text: `${i+1}. Nombre: ${usuario.usuario}, Email: ${usuario.correo}` });
+    });
     container.append(card);
 }
 
