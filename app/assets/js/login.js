@@ -1,14 +1,23 @@
 import { guardarUsuario, loginUsuario } from "./userLocalStorage.js";
 import Usuario from "./Usuario.js";
 
+const CURRENT_USER = "currentUser";
 
 $(document).ready(function () {
     init();
 });
 
 function init() {
+    checkSavedUser();
     startImageRotation();
     bindEvents();
+}
+
+function checkSavedUser() {
+    const savedUser = localStorage.getItem(CURRENT_USER);
+    if (savedUser) {
+        window.location.href = "app/main.html";
+    }
 }
 
 function bindEvents() {
@@ -49,28 +58,74 @@ function toggleRegister() {
 function submitLogin() {
     const username = $("#loginUsername").val();
     const password = $("#loginPassword").val();
+    const user = loginUsuario(username, password);
+
+    if (user) {
+        window.location.href = "app/main.html";
+    } else {
+        alert("Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.");
+    }
 }
 
 function submitRegister() {
-    const username = $("#registerUsername").val();
-    const password = $("#registerPassword").val();
-    const email = $("#registerEmail").val();
-    const height = $("#registerHeight").val();
-    const weight = $("#registerWeight").val();
-    const age = $("#registerAge").val();
-    let registerUserDate = new Usuario(username, password, email, height, weight, age);
+    let registerUserDate = checkValidity();
     if (!registerUserDate) {
-        alert("Error en el registro. Por favor, inténtalo de nuevo.");
         return;
     }
 
     const success = guardarUsuario(registerUserDate);
-
     if (success) {
-        alert("Registro exitoso. Ahora puedes iniciar sesión.");
-        toggleRegister();
+        window.location.href = "app/main.html";
     } else {
         alert("La combinación de usuario con correo ya existe. Por favor, elige otro.");
     }
 
+}
+
+function checkValidity(user) {
+    const username = $("#registerUsername").val();
+    const password = $("#registerPassword").val();
+    const confirmPassword = $("#registerPasswordConfirm").val();
+    const email = $("#registerEmail").val();
+    const height = $("#registerHeight").val();
+    const weight = $("#registerWeight").val();
+    const age = $("#registerAge").val();
+    const gender = $("#registerGender").val();
+
+    let errors = [];
+    if (!username || username.length < 3) {
+        errors.push("El nombre de usuario debe tener al menos 3 caracteres.");
+    }
+
+    if (!password || password.length < 6) {
+        errors.push("La contraseña debe tener al menos 6 caracteres.");
+    }
+
+    if (password !== confirmPassword) {
+        errors.push("Las contraseñas no coinciden.");
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+        errors.push("El correo electrónico no es válido.");
+    }
+
+    if (height && (isNaN(height) || height < 100 || height > 250)) {
+        errors.push("La altura debe estar entre 100 y 250 cm.");
+    }
+
+    if (weight && (isNaN(weight) || weight < 30 || weight > 300)) {
+        errors.push("El peso debe estar entre 30 y 300 kg.");
+    }
+
+    if (age && (isNaN(age) || age < 16 || age > 120)) {
+        errors.push("La edad debe estar entre 16 y 120 años.");
+    }
+
+    if (errors.length > 0) {
+        alert(errors.join("\n"));
+        return null;
+    }
+
+    return new Usuario(username, password, email, height, weight, age, gender);
 }

@@ -15,9 +15,9 @@
   <div id="container">
 
     <button id="themeToggle">Tema</button>
-    
+
     <div class="card login">
-      <h1 class="card-title"> Bienvenido</h1>
+      <h1 class="card-title">Bienvenido</h1>
       <div class="card-content">
         <button id="loginBtn">Iniciar Sesión</button>
         <button id="registerBtn">Registrarse</button>
@@ -37,11 +37,21 @@
       <h1 class="card-title"> Registrarse</h1>
       <div class="card-content">
         <input type="text" id="registerUsername" placeholder="Usuario" />
-        <input type="password" id="registerPassword" placeholder="Contraseña" />
         <input type="email" id="registerEmail" placeholder="Correo Electrónico" />
-        <input type="number" id="registerHeight" placeholder="Altura (cm)" min="100" max="230"/>
+        <input type="password" id="registerPassword" placeholder="Contraseña" />
+        <input type="password" id="registerPasswordConfirm" placeholder="Repetir Contraseña" />
+      </div>
+      <div class="card-content">
+        <input type="text" id="registerName" placeholder="Nombre Completo" />
+        <input type="number" id="registerHeight" placeholder="Altura (cm)" min="100" />
         <input type="number" id="registerWeight" placeholder="Peso (kg)" min="30" />
         <input type="number" id="registerAge" placeholder="Edad" min="16" />
+        <select class="inputTexto" id="registerGender" required>
+          <option value="" disabled selected hidden>Género</option>
+          <option value="hombre">Hombre</option>
+          <option value="mujer">Mujer</option>
+          <option value="otro">Otro</option>
+        </select>
         <button id="submitRegister">Registrar</button>
       </div>
     </div>
