@@ -15,7 +15,7 @@ export function guardarUsuario(usuario) {
 
     if (existe) {
         alert(`El usuario "${usuario.usuario}" o correo "${usuario.correo}" ya existe.`);
-        return false; 
+        return false;
     }
 
     usuarios.push({
@@ -29,10 +29,20 @@ export function guardarUsuario(usuario) {
         genero: usuario.genero,
         entrenamientos: usuario.entrenamientos
     });
-    
+
     const userJSON = JSON.stringify(usuarios);
-    localStorage.setItem(STORAGE_KEY, userJSON);
-    localStorage.setItem(CURRENT_USER, userJSON);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(usuarios));
+    localStorage.setItem(CURRENT_USER, JSON.stringify({
+        usuario: usuario.usuario,
+        contraseña: usuario.contraseña,
+        nombre: usuario.nombre,
+        correo: usuario.correo,
+        altura: usuario.altura,
+        peso: usuario.peso,
+        edad: usuario.edad,
+        genero: usuario.genero,
+        entrenamientos: usuario.entrenamientos
+    }));
 
     return true;
 }

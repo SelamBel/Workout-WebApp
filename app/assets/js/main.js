@@ -2,7 +2,7 @@ import { logOutUsuario, getCurrentUser } from "./userLocalStorage.js";
 import Usuario from "./Usuario.js";
 import * as CardMaker from "./cardMaker.js";
 
-let currentUser = getCurrentUser();
+let currentUser;
 $(document).ready(function () {
     init();
 });
@@ -10,6 +10,14 @@ $(document).ready(function () {
 function init() {
     exitIfNotLogged();
     bindEvents();
+    correctUserNameTitle();
+}
+
+function exitIfNotLogged() {
+    currentUser = getCurrentUser();
+    if (!currentUser) {
+        window.location.href = "../index.html";
+    }
 }
 
 function bindEvents() {
@@ -23,11 +31,10 @@ function bindEvents() {
     $("#mainShowTotalKM").on("click", notImplementedAlert);
 }
 
-function exitIfNotLogged() {
-    if (!currentUser) {
-        window.location.href = "../index.html";
-    }
+function correctUserNameTitle() {
+    $("#user-name").text(`Bienvenido ${currentUser.nombre}`);
 }
+
 
 function logOut() {
     logOutUsuario();
@@ -41,7 +48,7 @@ function showProfile() {
     CardMaker.setCardTitle(card, "Perfil de Usuario");
     const content = CardMaker.createCardContent(card);
     CardMaker.addElement(content, "p", { text: `Nombre: ${currentUser.nombre}` });
-    CardMaker.addElement(content, "p", { text: `Email: ${currentUser.email}` });
+    CardMaker.addElement(content, "p", { text: `Email: ${currentUser.correo}` });
     CardMaker.addElement(content, "p", { text: `Altura: ${currentUser.altura} cm` });
     CardMaker.addElement(content, "p", { text: `Peso: ${currentUser.peso} kg` });
     CardMaker.addElement(content, "p", { text: `Edad: ${currentUser.edad} años` });

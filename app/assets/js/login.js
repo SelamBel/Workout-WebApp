@@ -82,11 +82,12 @@ function submitRegister() {
 
 }
 
-function checkValidity(user) {
+function checkValidity() {
     const username = $("#registerUsername").val();
+    const email = $("#registerEmail").val();
     const password = $("#registerPassword").val();
     const confirmPassword = $("#registerPasswordConfirm").val();
-    const email = $("#registerEmail").val();
+    const name = $("#registerName").val();
     const height = $("#registerHeight").val();
     const weight = $("#registerWeight").val();
     const age = $("#registerAge").val();
@@ -110,6 +111,10 @@ function checkValidity(user) {
         errors.push("El correo electrónico no es válido.");
     }
 
+    if (!name || name.length < 2) {
+        errors.push("El nombre debe tener al menos 2 caracteres.");
+    }
+
     if (height && (isNaN(height) || height < 100 || height > 250)) {
         errors.push("La altura debe estar entre 100 y 250 cm.");
     }
@@ -127,5 +132,5 @@ function checkValidity(user) {
         return null;
     }
 
-    return new Usuario(username, password, email, height, weight, age, gender);
+    return new Usuario(username, password, name, email, height, weight, age, gender);
 }
