@@ -136,3 +136,12 @@ ul {
   margin: 0;
 }
 
+#mainLogOutBtn{
+  background-color: #da0303;
+}
+
+#mainLogOutBtn:hover{
+  background-color: #8d0101;
+  color: white;
+}
+

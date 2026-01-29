@@ -13,13 +13,14 @@
 <body>
   <div id="container">
     <button id="themeToggle">Tema</button>
+
     <div class="card main-card">
       <h1 id="user-name" class="card-title">Bienvenido X</h1>
       <div class="card-content">
-        <button id="mainLogOutBtn">Cerrar sesión</button>
         <button id="mainShowProfileBtn">Ver Perfil</button>
         <button id="mainShowUsersBtn">Ver Usuarios</button>
         <button id="mainOpenForum">Foro</button>
+        <button id="mainLogOutBtn">Cerrar sesión</button>
       </div>
       <div class="card-content">
         <button id="mainAddWorkOuts">Añadir Entrenamientos</button>
@@ -38,6 +39,18 @@
       </div>
     </div>
 
+    <div class="card hidden toggle" id="card-showBestWorkOut">
+      <h1>Filtrar mejor entrenamiento por:</h1>
+      <div class="card-content">
+        <input type="radio" id="porDistancia" name="metodoFiltrado" value="distancia" checked />
+        <label for="porDistancia">Distancia</label>
+        <input type="radio" id="porTiempo" name="metodoFiltrado" value="tiempo" />
+        <label for="porTiempo">Tiempo</label>
+        <input type="radio" id="porVelocidad" name="metodoFiltrado" value="velocidad" />
+        <label for="porVelocidad">Velocidad</label>
+        <button id="findBestWorkOut">Mostrar Mejor Entrenamiento</button>
+      </div>
+    </div>
   </div>
 </body>
 

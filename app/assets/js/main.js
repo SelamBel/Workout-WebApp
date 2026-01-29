@@ -34,6 +34,7 @@ function bindEvents() {
     $("#mainShowTotalKM").on("click", notImplementedAlert);
 
     $("#submitAddWorkOut").on("click", submitWorkOut);
+    $("#findBestWorkOut").on("click", findBestWorkOut);
 }
 
 function correctUserNameTitle() {
@@ -116,6 +117,31 @@ function showWorkOuts() {
         });
     });
 
+    container.append(card);
+}
+
+function findBestWorkOut() {
+    $(".created-card").remove()
+    const card = CardMaker.createCard();
+    let entrenamientos = currentUser.entrenamientos;
+    const metodoSeleccionado = $('input[name="metodoFiltrado"]:checked').val();
+
+    CardMaker.setCardTitle(card, "Mejor entrenamiento por " + metodoSeleccionado);
+    let content = CardMaker.createCardContent(card);
+    if (!entrenamientos || entrenamientos.length === 0) {
+        CardMaker.addElement(content, "p", { text: `No tienes entrenamientos apuntados.` });
+        container.append(card);
+        return;
+    }
+
+    let mejorEntrenamiento = entrenamientos[0];
+    entrenamientos.forEach(entrenamiento => {
+        if (entrenamiento[metodoSeleccionado] > mejorEntrenamiento[metodoSeleccionado]) {
+            mejorEntrenamiento = entrenamiento;
+        }
+    });
+
+    CardMaker.addElement(content, "p", { text: `Distancia: ${mejorEntrenamiento.distancia} km | Tiempo: ${mejorEntrenamiento.tiempo} min | Velocidad: ${mejorEntrenamiento.velocidad} | Nivel: ${mejorEntrenamiento.nivelEsfuerzo}`});
     container.append(card);
 }
 
