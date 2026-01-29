@@ -31,7 +31,7 @@ function bindEvents() {
     $("#mainAddWorkOuts").on("click", () => toggleCards("card-addWorkOut"));
     $("#mainShowWorkOuts").on("click", showWorkOuts);
     $("#mainShowBestWorkOut").on("click", () => toggleCards("card-showBestWorkOut"));
-    $("#mainShowTotalKM").on("click", notImplementedAlert);
+    $("#mainShowTotalKM").on("click", showTotalKM);
 
     $("#submitAddWorkOut").on("click", submitWorkOut);
     $("#findBestWorkOut").on("click", findBestWorkOut);
@@ -48,7 +48,6 @@ function logOut() {
 }
 
 function showProfile() {
-    $(".created-card").remove();
     toggleCards();
     const card = CardMaker.createCard();
     CardMaker.setCardTitle(card, "Perfil de Usuario");
@@ -63,7 +62,6 @@ function showProfile() {
 }
 
 function showUsers() {
-    $(".created-card").remove();
     toggleCards();
     const card = CardMaker.createCard();
     CardMaker.setCardTitle(card, "Lista de Usuarios");
@@ -143,7 +141,23 @@ function findBestWorkOut() {
         }
     });
 
-    CardMaker.addElement(content, "p", { text: `Distancia: ${mejorEntrenamiento.distancia} km | Tiempo: ${mejorEntrenamiento.tiempo} min | Velocidad: ${mejorEntrenamiento.velocidad} | Nivel: ${mejorEntrenamiento.nivelEsfuerzo}`});
+    CardMaker.addElement(content, "p", { text: `Distancia: ${mejorEntrenamiento.distancia} km | Tiempo: ${mejorEntrenamiento.tiempo} min | Velocidad: ${mejorEntrenamiento.velocidad} | Nivel: ${mejorEntrenamiento.nivelEsfuerzo}` });
+    container.append(card);
+}
+
+function showTotalKM() {
+    toggleCards();
+    const card = CardMaker.createCard();
+    CardMaker.setCardTitle(card, "Total de KM recorridos");
+
+    let entrenamientos = currentUser.entrenamientos;
+    let sumKM = 0;
+    entrenamientos.forEach(entrenamiento => {
+        sumKM += entrenamiento.distancia
+    });
+
+    const content = CardMaker.createCardContent(card);
+    CardMaker.addElement(content, "p", { text: `Has recorrido un total de ${sumKM} km. Bien hecho.`});
     container.append(card);
 }
 
