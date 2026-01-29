@@ -39,7 +39,11 @@ export function addElement(parent, tag, options = {}) {
     }
 
     if (options.class) {
-        element.classList.add(...options.class);
+        if (Array.isArray(options.class)) {
+            element.classList.add(...options.class);
+        } else {
+            element.classList.add(options.class);
+        }
     }
 
     if (options.attrs) {

@@ -9,6 +9,7 @@
   --input-border: #444444;
   --contrary-color: #4aa2ff;
   --contrary-accent-color: #0064cf;
+  --box-shadow: #121212;
 }
 
 :root.light {
@@ -22,6 +23,7 @@
   --input-border: #cccccc;
   --contrary-color: #ff5d5d;
   --contrary-accent-color: #da0303;
+  --box-shadow: #121212;
 }
 
 body {
@@ -72,14 +74,16 @@ button {
   padding: 10px 20px;
   cursor: pointer;
   font-size: 1em;
-  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease, box-shadow 0.4s ease;
   max-width: fit-content;
   font-weight: 600;
+  box-shadow: 1px 1px 3px 1px var(--box-shadow);
 }
 
 button:hover {
   background-color: var(--accent);
   transform: scale(1.05);
+  box-shadow: 3px 3px 3px 3px var(--box-shadow);
 }
 
 input:not([type="radio"]), select, textarea {
@@ -130,10 +134,14 @@ h1 {
 
 ul {
   list-style-type: none;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   padding: 0;
   margin: 0;
+}
+
+ul > li {
+  flex: 1;
 }
 
 #mainLogOutBtn{
@@ -145,3 +153,81 @@ ul {
   color: white;
 }
 
+/* Estilos para lista de entrenamientos */
+.lista-entrenamientos {
+  width: 100%;
+  gap: 20px;
+}
+
+.card-entrenamiento {
+  background-color: var(--bg2);
+  border: 2px solid var(--input-border);
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-entrenamiento:hover {
+  border-color: var(--primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+.entrenamiento-titulo {
+  color: var(--primary);
+  margin: 0 0 15px 0;
+  font-size: 1.3em;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 10px;
+}
+
+.entrenamiento-distancia,
+.entrenamiento-tiempo,
+.entrenamiento-velocidad,
+.entrenamiento-esfuerzo,
+.entrenamiento-fecha {
+  margin: 8px 0;
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+.entrenamiento-distancia {
+  font-weight: 600;
+  color: var(--contrary-color);
+}
+
+.entrenamiento-velocidad {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.entrenamiento-esfuerzo {
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 5px;
+  display: inline-block;
+  background-color: var(--input-bg);
+}
+
+.entrenamiento-fecha {
+  font-size: 0.9em;
+  color: var(--text);
+  opacity: 0.8;
+  font-style: italic;
+  margin-top: 10px;
+}
+
+
+
+@media (min-width: 870px) and (max-width: 1350px) {
+    ul {
+      grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 869px) {
+    ul {
+      grid-template-columns: repeat(1, 1fr);
+    }
+}

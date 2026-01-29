@@ -114,12 +114,20 @@ function showWorkOuts() {
     const lista = CardMaker.createContainer(content, "ul", "lista-entrenamientos");
     entrenamientosActuales.forEach((entrenamiento, index) => {
         const cardEntrenamiento = CardMaker.createContainer(lista, "li", "card-entrenamiento");
-        CardMaker.addElement(cardEntrenamiento, "h3", { text: `Entrenamiento #${index + 1}` });
-        CardMaker.addElement(cardEntrenamiento, "p", { text: `Distancia: ${entrenamiento.distancia} km` });
-        CardMaker.addElement(cardEntrenamiento, "p", { text: `Tiempo: ${entrenamiento.distancia} min` });
-        CardMaker.addElement(cardEntrenamiento, "p", { text: `Velocidad: ${entrenamiento.velocidad} km/h` });
-        CardMaker.addElement(cardEntrenamiento, "p", { text: `Nivel de esfuerzo: ${entrenamiento.nivelEsfuerzo}` });
-        CardMaker.addElement(cardEntrenamiento, "p", { text: `Fecha: ${entrenamiento.fecha}` });
+        CardMaker.addElement(cardEntrenamiento, "h3", { text: `Entrenamiento #${index + 1}`, class: `entrenamiento-titulo` });
+        CardMaker.addElement(cardEntrenamiento, "p", { text: `Distancia: ${entrenamiento.distancia} km`, class: "entrenamiento-distancia" });
+        CardMaker.addElement(cardEntrenamiento, "p", { text: `Tiempo: ${entrenamiento.distancia} min`, class: "entrenamiento-tiempo" });
+        CardMaker.addElement(cardEntrenamiento, "p", { text: `Velocidad: ${entrenamiento.velocidad} km/h`, class: "entrenamiento-velocidad" });
+        CardMaker.addElement(cardEntrenamiento, "p", { text: `Nivel de esfuerzo: ${entrenamiento.nivelEsfuerzo}`, class: "entrenamiento-esfuerzo" });
+
+        const fecha = new Date(entrenamiento.fecha).toLocaleString('es-ES', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        CardMaker.addElement(cardEntrenamiento, "p", { text: `Fecha: ${fecha}`, class: "entrenamiento-fecha" });
         lista.append(cardEntrenamiento);
     });
     container.append(card);
