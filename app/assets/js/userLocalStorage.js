@@ -1,4 +1,5 @@
 import Usuario from "./Usuario.js";
+import Entrenamiento from "./Entrenamiento.js";
 
 const ALL_USERS = "allUsers";
 const CURRENT_USER = "currentUser";
@@ -8,63 +9,66 @@ function obtenerUsuarios() {
     return usuariosJSON ? JSON.parse(usuariosJSON) : [];
 }
 
+function reconstruirUsuarioDesdeJSON(u) {
+    const entrenamientos = u.entrenamientos?.map(e => {
+        const entr = new Entrenamiento(e.distancia, e.tiempo);
+        entr.fecha = new Date(e.fecha);
+        entr.nivelEsfuerzo = e.nivelEsfuerzo;
+        return entr;
+    }) || [];
+
+    return new Usuario(
+        u.usuario,
+        u.contraseña,
+        u.nombre,
+        u.correo,
+        u.altura,
+        u.peso,
+        u.edad,
+        u.genero,
+        entrenamientos
+    );
+}
+
+function convertirUsuarioAJSON(u) {
+    return {
+        usuario: u.usuario,
+        contraseña: u.contraseña,
+        nombre: u.nombre,
+        correo: u.correo,
+        altura: u.altura,
+        peso: u.peso,
+        edad: u.edad,
+        genero: u.genero,
+        entrenamientos: u.entrenamientos.map(e => ({
+            distancia: e.distancia,
+            tiempo: e.tiempo,
+            fecha: e.fecha,
+            nivelEsfuerzo: e.nivelEsfuerzo
+        }))
+    };
+}
+
 export function guardarUsuario(usuario) {
     const usuarios = obtenerUsuarios();
-
     const existe = usuarios.some(u => usuario.comprobarIgualdadStr(u.usuario, u.correo));
+    if (existe) return false;
 
-    if (existe) {
-        alert(`El usuario "${usuario.usuario}" o correo "${usuario.correo}" ya existe.`);
-        return false;
-    }
-
-    usuarios.push({
-        usuario: usuario.usuario,
-        contraseña: usuario.contraseña,
-        nombre: usuario.nombre,
-        correo: usuario.correo,
-        altura: usuario.altura,
-        peso: usuario.peso,
-        edad: usuario.edad,
-        genero: usuario.genero,
-        entrenamientos: usuario.entrenamientos
-    });
-
-    const userJSON = JSON.stringify(usuarios);
+    const usuarioJSON = convertirUsuarioAJSON(usuario);
+    usuarios.push(usuarioJSON);
     localStorage.setItem(ALL_USERS, JSON.stringify(usuarios));
-    localStorage.setItem(CURRENT_USER, JSON.stringify({
-        usuario: usuario.usuario,
-        contraseña: usuario.contraseña,
-        nombre: usuario.nombre,
-        correo: usuario.correo,
-        altura: usuario.altura,
-        peso: usuario.peso,
-        edad: usuario.edad,
-        genero: usuario.genero,
-        entrenamientos: usuario.entrenamientos
-    }));
-
+    localStorage.setItem(CURRENT_USER, JSON.stringify(usuarioJSON));
     return true;
 }
 
 export function loginUsuario(usuario, contraseña) {
     const usuarios = obtenerUsuarios();
     const encontrado = usuarios.find(u => u.usuario === usuario && u.contraseña === contraseña);
-
     if (encontrado) {
         localStorage.setItem(CURRENT_USER, JSON.stringify(encontrado));
+        return reconstruirUsuarioDesdeJSON(encontrado);
     }
-
-    return encontrado ? new Usuario(
-        encontrado.usuario,
-        encontrado.contraseña,
-        encontrado.nombre,
-        encontrado.correo,
-        encontrado.altura,
-        encontrado.peso,
-        encontrado.edad,
-        encontrado.genero
-    ) : null;
+    return null;
 }
 
 export function logOutUsuario() {
@@ -73,21 +77,9 @@ export function logOutUsuario() {
 
 export function getCurrentUser() {
     const usuarioJSON = localStorage.getItem(CURRENT_USER);
-    let usuario = null;
-    if (usuarioJSON) {
-        const u = JSON.parse(usuarioJSON);
-        usuario = new Usuario(
-            u.usuario,
-            u.contraseña,
-            u.nombre,
-            u.correo,
-            u.altura,
-            u.peso,
-            u.edad,
-            u.genero
-        );
-    }
-    return usuario;
+    if (!usuarioJSON) return null;
+    const u = JSON.parse(usuarioJSON);
+    return reconstruirUsuarioDesdeJSON(u);
 }
 
 export function getUsers() {
@@ -96,15 +88,20 @@ export function getUsers() {
     if (usuariosJSON) {
         const usuariosArray = JSON.parse(usuariosJSON);
         for (const u of usuariosArray) {
-            usuarios.push({
-                usuario: u.usuario,
-                correo: u.correo
-            });
+            usuarios.push({ usuario: u.usuario, correo: u.correo });
         }
     }
     return usuarios;
 }
 
+export function updateCurrentUser(updatedUser) {
+    const usuarios = obtenerUsuarios();
+    const index = usuarios.findIndex(u => u.usuario === updatedUser.usuario);
+    if (index === -1) return false;
 
-
-
+    const usuarioJSON = convertirUsuarioAJSON(updatedUser);
+    usuarios[index] = usuarioJSON;
+    localStorage.setItem(ALL_USERS, JSON.stringify(usuarios));
+    localStorage.setItem(CURRENT_USER, JSON.stringify(usuarioJSON));
+    return true;
+}

@@ -1,14 +1,14 @@
 class Usuario {
-  constructor(usuario, contraseña, nombre, correo, altura, peso, edad, genero) {
+  constructor(usuario, contraseña, nombre, correo, altura, peso, edad, genero, entrenamientos = []) {
     this.usuario = usuario;
     this.contraseña = contraseña;
     this.nombre = nombre;
     this.correo = correo;
-    this.altura = altura || 0;
-    this.peso = peso || 0;
-    this.edad = edad || 0;
+    this.altura = altura;
+    this.peso = peso;
+    this.edad = edad;
     this.genero = genero ? this.añadirGenero(genero) : "Otro";
-    this.entrenamientos = [];
+    this.entrenamientos = entrenamientos;
   }
 
   añadirGenero(genero) {

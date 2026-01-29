@@ -1,7 +1,9 @@
-import { logOutUsuario, getCurrentUser, getUsers } from "./userLocalStorage.js";
+import { logOutUsuario, getCurrentUser, getUsers, updateCurrentUser } from "./userLocalStorage.js";
 import Usuario from "./Usuario.js";
+import Entrenamiento from "./Entrenamiento.js";
 import * as CardMaker from "./cardMaker.js";
 
+const container = $("#container");
 let currentUser;
 $(document).ready(function () {
     init();
@@ -25,10 +27,13 @@ function bindEvents() {
     $("#mainShowProfileBtn").on("click", showProfile);
     $("#mainShowUsersBtn").on("click", showUsers);
     $("#mainOpenForum").on("click", notImplementedAlert);
-    $("#mainAddWorkOuts").on("click", notImplementedAlert);
-    $("#mainShowWorkOuts").on("click", notImplementedAlert);
-    $("#mainShowBestWorkOut").on("click", notImplementedAlert);
+
+    $("#mainAddWorkOuts").on("click", () => toggleCards("card-addWorkOut"));
+    $("#mainShowWorkOuts").on("click", showWorkOuts);
+    $("#mainShowBestWorkOut").on("click", () => toggleCards("card-showBestWorkOut"));
     $("#mainShowTotalKM").on("click", notImplementedAlert);
+
+    $("#submitAddWorkOut").on("click", submitWorkOut);
 }
 
 function correctUserNameTitle() {
@@ -43,7 +48,6 @@ function logOut() {
 
 function showProfile() {
     $(".created-card").remove();
-    const container = $("#container");
     const card = CardMaker.createCard();
     CardMaker.setCardTitle(card, "Perfil de Usuario");
     const content = CardMaker.createCardContent(card);
@@ -58,18 +62,69 @@ function showProfile() {
 
 function showUsers() {
     $(".created-card").remove();
-    const container = $("#container");
     const card = CardMaker.createCard();
     CardMaker.setCardTitle(card, "Lista de Usuarios");
     const content = CardMaker.createCardContent(card);
     const usuarios = getUsers();
     const userList = CardMaker.addElement(content, "ul");
     usuarios.forEach((usuario, i) => {
-        CardMaker.addElement(userList, "li", { text: `${i+1}. Nombre: ${usuario.usuario}, Email: ${usuario.correo}` });
+        CardMaker.addElement(userList, "li", { text: `${i + 1}. Nombre: ${usuario.usuario}, Email: ${usuario.correo}` });
     });
     container.append(card);
 }
 
+function submitWorkOut() {
+    const distancia = parseFloat($("#distancia").val());
+    const tiempo = parseFloat($("#tiempo").val());
+
+    if (isNaN(distancia) || isNaN(tiempo) || distancia <= 0 || tiempo <= 0) {
+        alert("Por favor, ingrese valores válidos para distancia y tiempo.");
+        return;
+    }
+
+    const entrenamiento = new Entrenamiento(distancia, tiempo);
+    currentUser.añadirEntrenamiento(entrenamiento);
+
+    const card = CardMaker.createCard();
+    CardMaker.setCardTitle(card, "Resultado de añadir entrenamiento");
+    const content = CardMaker.createCardContent(card);
+    if (updateCurrentUser(currentUser)) {
+        CardMaker.addElement(content, "p", { text: `Se ha creado con exito.` });
+    } else {
+        CardMaker.addElement(content, "p", { text: `Ha habido un error actualizando el usuario.` });
+    }
+    container.append(card);
+}
+
+function showWorkOuts() {
+    toggleCards();
+    let entrenamientosActuales = currentUser.entrenamientos;
+
+    const card = CardMaker.createCard();
+    CardMaker.setCardTitle(card, "Entrenamientos de " + currentUser.nombre);
+    const content = CardMaker.createCardContent(card);
+
+    if (!entrenamientosActuales || entrenamientosActuales.length === 0) {
+        CardMaker.addElement(content, "p", { text: `No tienes entrenamientos apuntados.` });
+        container.append(card);
+        return;
+    }
+
+    entrenamientosActuales.forEach((entrenamiento, index) => {
+        CardMaker.addElement(content, "li", {
+            text: `#${index + 1} - Distancia: ${entrenamiento.distancia} km | Tiempo: ${entrenamiento.tiempo} min | Velocidad: ${entrenamiento.velocidad} | Nivel: ${entrenamiento.nivelEsfuerzo}`
+        });
+    });
+
+    container.append(card);
+}
+
+function toggleCards(cardId) {
+    $(".created-card").remove()
+    $(".toggle").removeClass("hidden");
+    $(".toggle").addClass("hidden");
+    $(`#${cardId}`).removeClass("hidden");
+}
 
 function notImplementedAlert() {
     alert("Funcionalidad no implementada aún.");

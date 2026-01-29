@@ -29,3 +29,5 @@ class Entrenamiento {
         return `Distancia: ${this.distancia}km, Tiempo: ${this.tiempo}min, Velocidad: ${this.velocidad}km/h, Nivel de esfuerzo: ${this.nivelEsfuerzo}, Fecha: ${this.fecha}`;
     }
 }
+
+export default Entrenamiento;
