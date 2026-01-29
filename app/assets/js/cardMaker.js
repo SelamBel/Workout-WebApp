@@ -19,6 +19,18 @@ export function createCardContent(card) {
     return content;
 }
 
+export function createContainer(parent, tag, classType = "") {
+    const container = document.createElement(tag);
+
+    if (classType) {
+        container.classList.add(classType);
+    }
+
+    parent.appendChild(container);
+    return container;
+}
+
+
 export function addElement(parent, tag, options = {}) {
     const element = document.createElement(tag);
 
