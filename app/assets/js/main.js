@@ -49,6 +49,7 @@ function logOut() {
 
 function showProfile() {
     $(".created-card").remove();
+    toggleCards();
     const card = CardMaker.createCard();
     CardMaker.setCardTitle(card, "Perfil de Usuario");
     const content = CardMaker.createCardContent(card);
@@ -63,6 +64,7 @@ function showProfile() {
 
 function showUsers() {
     $(".created-card").remove();
+    toggleCards();
     const card = CardMaker.createCard();
     CardMaker.setCardTitle(card, "Lista de Usuarios");
     const content = CardMaker.createCardContent(card);
