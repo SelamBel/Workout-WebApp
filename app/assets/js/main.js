@@ -111,12 +111,17 @@ function showWorkOuts() {
         return;
     }
 
+    const lista = CardMaker.createContainer(content, "ul", "lista-entrenamientos");
     entrenamientosActuales.forEach((entrenamiento, index) => {
-        CardMaker.addElement(content, "li", {
-            text: `#${index + 1} - Distancia: ${entrenamiento.distancia} km | Tiempo: ${entrenamiento.tiempo} min | Velocidad: ${entrenamiento.velocidad} | Nivel: ${entrenamiento.nivelEsfuerzo}`
-        });
+        const cardEntrenamiento = CardMaker.createContainer(lista, "li", "card-entrenamiento");
+        CardMaker.addElement(cardEntrenamiento, "h3", { text: `Entrenamiento #${index + 1}` });
+        CardMaker.addElement(cardEntrenamiento, "p", { text: `Distancia: ${entrenamiento.distancia} km` });
+        CardMaker.addElement(cardEntrenamiento, "p", { text: `Tiempo: ${entrenamiento.distancia} min` });
+        CardMaker.addElement(cardEntrenamiento, "p", { text: `Velocidad: ${entrenamiento.velocidad} km/h` });
+        CardMaker.addElement(cardEntrenamiento, "p", { text: `Nivel de esfuerzo: ${entrenamiento.nivelEsfuerzo}` });
+        CardMaker.addElement(cardEntrenamiento, "p", { text: `Fecha: ${entrenamiento.fecha}` });
+        lista.append(cardEntrenamiento);
     });
-
     container.append(card);
 }
 
@@ -157,7 +162,7 @@ function showTotalKM() {
     });
 
     const content = CardMaker.createCardContent(card);
-    CardMaker.addElement(content, "p", { text: `Has recorrido un total de ${sumKM} km. Bien hecho.`});
+    CardMaker.addElement(content, "p", { text: `Has recorrido un total de ${sumKM} km. Bien hecho.` });
     container.append(card);
 }
 

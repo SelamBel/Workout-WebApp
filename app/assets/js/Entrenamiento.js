@@ -1,23 +1,15 @@
 class Entrenamiento {
 
-    constructor(distancia, tiempo) {
-        if (!this.comprobarValoresEntrenamiento(distancia, tiempo)) 
-            return false; 
+    constructor(distancia, tiempo, fecha = null) {
         this.distancia = distancia;
         this.tiempo = tiempo;
         this.velocidad = this.calcularVelocidad();
-        this.fecha = new Date();
+        this.fecha = fecha instanceof Date ? fecha : new Date();
         this.nivelEsfuerzo = this.calcularNivelEsfuerzo();
     }
 
     calcularVelocidad() {
         return (this.distancia / (this.tiempo / 60)).toFixed(2);
-    }
-
-    comprobarValoresEntrenamiento(distancia, tiempo) {
-        if (isNaN(distancia) || distancia <= 0) { alert("Distancia inválida."); return false; }
-        if (isNaN(tiempo) || tiempo <= 0) { alert("Tiempo inválido."); return false; }
-        return true;
     }
     calcularNivelEsfuerzo() {
         if (this.velocidad < 8) return "Malo";
