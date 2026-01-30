@@ -4,6 +4,7 @@ import Entrenamiento from "./Entrenamiento.js";
 const ALL_USERS = "allUsers";
 const CURRENT_USER = "currentUser";
 const DELETE_MODAL = "deleteModal";
+const THEME = "currentTheme";
 
 function obtenerUsuarios() {
     const usuariosJSON = localStorage.getItem(ALL_USERS);
@@ -107,11 +108,19 @@ export function updateCurrentUser(updatedUser) {
     return true;
 }
 
-export function checkModal(){
+export function checkModal() {
     let choice = localStorage.getItem(DELETE_MODAL);
     return choice;
 }
 
-export function deleteModal(){
+export function deleteModal() {
     localStorage.setItem(DELETE_MODAL, true);
+}
+
+export function checkTheme() {
+    return localStorage.getItem(THEME);
+}
+
+export function switchTheme(theme) {
+    localStorage.setItem(THEME, theme);
 }

@@ -12,6 +12,7 @@ function init() {
     bindEvents();
     startImageRotation();
     showModal();
+    startTheme();
 }
 
 function checkSavedUser() {
@@ -140,7 +141,6 @@ function checkValidity() {
 }
 
 function showModal() {
-    debugger;
     let choice = checkModal();
     if (choice) {
         $("#modal").css("display",  "none");
