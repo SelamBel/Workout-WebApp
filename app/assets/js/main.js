@@ -75,6 +75,7 @@ function showUsers() {
 }
 
 function submitWorkOut() {
+    $(".created-card").remove()
     const distancia = parseFloat($("#distancia").val());
     const tiempo = parseFloat($("#tiempo").val());
 
@@ -153,8 +154,20 @@ function findBestWorkOut() {
             mejorEntrenamiento = entrenamiento;
         }
     });
-
-    CardMaker.addElement(content, "p", { text: `Distancia: ${mejorEntrenamiento.distancia} km | Tiempo: ${mejorEntrenamiento.tiempo} min | Velocidad: ${mejorEntrenamiento.velocidad} | Nivel: ${mejorEntrenamiento.nivelEsfuerzo}` });
+    
+    const ulBestWorkOut = CardMaker.createContainer(content, "ul", "best-workout");
+    CardMaker.addElement(ulBestWorkOut, "li", { text: `Distancia: ${mejorEntrenamiento.distancia} km` });
+    CardMaker.addElement(ulBestWorkOut, "li", { text: `Tiempo: ${mejorEntrenamiento.tiempo} min` });
+    CardMaker.addElement(ulBestWorkOut, "li", { text: `Velocidad: ${mejorEntrenamiento.velocidad}` });
+    CardMaker.addElement(ulBestWorkOut, "li", { text: `Nivel: ${mejorEntrenamiento.nivelEsfuerzo}` });
+    const fecha = new Date(mejorEntrenamiento.fecha).toLocaleString('es-ES', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+    CardMaker.addElement(ulBestWorkOut, "li", { text: `Fecha: ${fecha}` });
     container.append(card);
 }
 

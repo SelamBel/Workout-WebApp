@@ -133,14 +133,17 @@ h1 {
 
 
 ul {
-  list-style-type: none;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
   padding: 0;
   margin: 0;
+  list-style-type: none;
 }
 
-ul > li {
+ul.lista-entrenamientos {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+ul.lista-entrenamientos > li {
   flex: 1;
 }
 
