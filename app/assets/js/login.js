@@ -1,4 +1,4 @@
-import { guardarUsuario, loginUsuario } from "./userLocalStorage.js";
+import { guardarUsuario, loginUsuario, checkModal, deleteModal } from "./userLocalStorage.js";
 import Usuario from "./Usuario.js";
 
 const CURRENT_USER = "currentUser";
@@ -9,8 +9,9 @@ $(document).ready(function () {
 
 function init() {
     checkSavedUser();
-    startImageRotation();
     bindEvents();
+    startImageRotation();
+    showModal();
 }
 
 function checkSavedUser() {
@@ -26,6 +27,9 @@ function bindEvents() {
     $("#registerBtn").on("click", toggleRegister);
     $("#submitLogin").on("click", submitLogin);
     $("#submitRegister").on("click", submitRegister);
+
+    $("#modalExit").on("click", closeModal);
+    $("#modalDelete").on("click", removeModal);
 }
 
 const images = ["1.jpeg", "2.jpeg", "3.jpeg", "4.jpeg"];
@@ -133,4 +137,21 @@ function checkValidity() {
     }
 
     return new Usuario(username, password, name, email, height, weight, age, gender);
+}
+
+function showModal() {
+    debugger;
+    let choice = checkModal();
+    if (choice) {
+        $("#modal").css("display",  "none");
+    }
+}
+
+function closeModal() {
+    $("#modal").css("display",  "none");
+}
+
+function removeModal() {
+    $("#modal").css("display",  "none");
+    deleteModal();
 }

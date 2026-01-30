@@ -3,6 +3,7 @@ import Entrenamiento from "./Entrenamiento.js";
 
 const ALL_USERS = "allUsers";
 const CURRENT_USER = "currentUser";
+const DELETE_MODAL = "deleteModal";
 
 function obtenerUsuarios() {
     const usuariosJSON = localStorage.getItem(ALL_USERS);
@@ -104,4 +105,13 @@ export function updateCurrentUser(updatedUser) {
     localStorage.setItem(ALL_USERS, JSON.stringify(usuarios));
     localStorage.setItem(CURRENT_USER, JSON.stringify(usuarioJSON));
     return true;
+}
+
+export function checkModal(){
+    let choice = localStorage.getItem(DELETE_MODAL);
+    return choice;
+}
+
+export function deleteModal(){
+    localStorage.setItem(DELETE_MODAL, true);
 }
