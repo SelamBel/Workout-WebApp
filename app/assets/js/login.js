@@ -12,7 +12,6 @@ function init() {
     bindEvents();
     startImageRotation();
     showModal();
-    startTheme();
 }
 
 function checkSavedUser() {

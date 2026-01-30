@@ -1,7 +1,6 @@
 import { checkTheme, switchTheme } from "./userLocalStorage.js";
 
 function applyTheme() {
-    debugger;
     const theme = checkTheme() || "dark"; 
     if (theme === "light") {
         $("html").addClass("light");
@@ -14,7 +13,6 @@ function applyTheme() {
 function initThemeToggle() {
     
     $("#themeToggle").on("click", () => {
-        debugger;
         $("html").toggleClass("light");
         const newTheme = $("html").hasClass("light") ? "light" : "dark";
         switchTheme(newTheme);
