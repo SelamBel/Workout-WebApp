@@ -30,10 +30,12 @@ function bindEvents() {
 
     $("#mainAddWorkOuts").on("click", () => toggleCards("card-addWorkOut"));
     $("#mainShowWorkOuts").on("click", showWorkOuts);
+    $("#mainFindWorkOuts").on("click", setUpFindWorkOuts);
     $("#mainShowBestWorkOut").on("click", () => toggleCards("card-showBestWorkOut"));
     $("#mainShowTotalKM").on("click", showTotalKM);
 
     $("#submitAddWorkOut").on("click", submitWorkOut);
+    $("#submitFindWorkOut").on("click", findWorkOut);
     $("#findBestWorkOut").on("click", findBestWorkOut);
 }
 
@@ -100,24 +102,26 @@ function submitWorkOut() {
 
 function showWorkOuts() {
     toggleCards();
-    let entrenamientosActuales = currentUser.entrenamientos;
+    createWorkOutList(currentUser.entrenamientos, "Entrenamientos de " + currentUser.nombre);
+}
 
+function createWorkOutList(entrenamientos, titulo) {
     const card = CardMaker.createCard();
-    CardMaker.setCardTitle(card, "Entrenamientos de " + currentUser.nombre);
+    CardMaker.setCardTitle(card, titulo);
     const content = CardMaker.createCardContent(card);
 
-    if (!entrenamientosActuales || entrenamientosActuales.length === 0) {
-        CardMaker.addElement(content, "p", { text: `No tienes entrenamientos apuntados.` });
+    if (!entrenamientos || entrenamientos.length === 0) {
+        CardMaker.addElement(content, "p", { text: `No hay entrenamientos para mostrar.` });
         container.append(card);
         return;
     }
 
     const lista = CardMaker.createContainer(content, "ul", "lista-entrenamientos");
-    entrenamientosActuales.forEach((entrenamiento, index) => {
+    entrenamientos.forEach((entrenamiento, index) => {
         const cardEntrenamiento = CardMaker.createContainer(lista, "li", "card-entrenamiento");
         CardMaker.addElement(cardEntrenamiento, "h3", { text: `Entrenamiento #${index + 1}`, class: `entrenamiento-titulo` });
         CardMaker.addElement(cardEntrenamiento, "p", { text: `Distancia: ${entrenamiento.distancia} km`, class: "entrenamiento-distancia" });
-        CardMaker.addElement(cardEntrenamiento, "p", { text: `Tiempo: ${entrenamiento.distancia} min`, class: "entrenamiento-tiempo" });
+        CardMaker.addElement(cardEntrenamiento, "p", { text: `Tiempo: ${entrenamiento.tiempo} min`, class: "entrenamiento-tiempo" });
         CardMaker.addElement(cardEntrenamiento, "p", { text: `Velocidad: ${entrenamiento.velocidad} km/h`, class: "entrenamiento-velocidad" });
         CardMaker.addElement(cardEntrenamiento, "p", { text: `Nivel de esfuerzo: ${entrenamiento.nivelEsfuerzo}`, class: "entrenamiento-esfuerzo" });
 
@@ -129,25 +133,67 @@ function showWorkOuts() {
             minute: '2-digit'
         });
         CardMaker.addElement(cardEntrenamiento, "p", { text: `Fecha: ${fecha}`, class: "entrenamiento-fecha" });
+
         const btnBorrar = CardMaker.addElement(cardEntrenamiento, "button", { text: `Borrar`, class: "btn-borrar-entrenamiento" });
         $(btnBorrar).on('click', () => {
             borrarEntrenamiento(index);
         });
+
         lista.append(cardEntrenamiento);
     });
     container.append(card);
-}
+};
 
 function borrarEntrenamiento(indice) {
     if (confirm(`¿Estás seguro de que quieres borrar el entrenamiento #${indice + 1}?`)) {
         currentUser.entrenamientos.splice(indice, 1);
-        
+
         if (updateCurrentUser(currentUser)) {
             showWorkOuts();
         } else {
             alert("Error al borrar el entrenamiento");
         }
     }
+}
+
+function setUpFindWorkOuts() {
+    toggleCards("card-findWorkOut");
+    let fechaInicio = $("#dateStart");
+    let fechaFin = $("#dateEnd");
+    const hoy = new Date().toISOString().split('T')[0];
+
+    const primerDiaMes = new Date();
+    primerDiaMes.setDate(1);
+    const primerDiaMesStr = primerDiaMes.toISOString().split('T')[0];
+
+    fechaFin.val(hoy).attr("max", hoy);
+    fechaInicio.val(primerDiaMesStr).attr("max", hoy);
+}
+
+function findWorkOut() {
+    toggleCards("card-findWorkOut");
+    let fechaInicio = new Date($("#dateStart").val());
+    let fechaFin = new Date($("#dateEnd").val());
+    
+    fechaFin.setHours(23, 59, 59, 999);
+    
+    let title = "Búsqueda entre " + $("#dateStart").val() + " y " + $("#dateEnd").val();
+
+    if (fechaInicio > fechaFin) {
+        const card = CardMaker.createCard();
+        CardMaker.setCardTitle(card, title);
+        const content = CardMaker.createCardContent(card);
+        CardMaker.addElement(content, "p", {text: "La fecha de inicio no puede ser mayor a la de fin."});
+        container.append(card);
+        return;
+    }
+
+    const entrenamientosFiltrados = currentUser.entrenamientos.filter(entrenamiento => {
+        const fechaEntrenamiento = new Date(entrenamiento.fecha);
+        return fechaEntrenamiento >= fechaInicio && fechaEntrenamiento <= fechaFin;
+    });
+
+    createWorkOutList(entrenamientosFiltrados, title);
 }
 
 function findBestWorkOut() {
@@ -170,7 +216,7 @@ function findBestWorkOut() {
             mejorEntrenamiento = entrenamiento;
         }
     });
-    
+
     const ulBestWorkOut = CardMaker.createContainer(content, "ul", "best-workout");
     CardMaker.addElement(ulBestWorkOut, "li", { text: `Distancia: ${mejorEntrenamiento.distancia} km` });
     CardMaker.addElement(ulBestWorkOut, "li", { text: `Tiempo: ${mejorEntrenamiento.tiempo} min` });
