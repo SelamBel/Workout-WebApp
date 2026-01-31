@@ -104,8 +104,18 @@ function checkValidity() {
         errors.push("El nombre de usuario debe tener al menos 3 caracteres.");
     }
 
+    const usernamePattern = /^[a-zA-Z0-9]{3,}$/;
+    if (!usernamePattern.test(username)) {
+        errors.push("El usuario solo puede contener letras y números.");
+    }
+
     if (!password || password.length < 6) {
         errors.push("La contraseña debe tener al menos 6 caracteres.");
+    }
+
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+    if (!passwordPattern.test(password)) {
+        errors.push("La contraseña debe contener al menos una letra mayúscula, una minúscula y un número.");
     }
 
     if (password !== confirmPassword) {
@@ -119,6 +129,11 @@ function checkValidity() {
 
     if (!name || name.length < 2) {
         errors.push("El nombre debe tener al menos 2 caracteres.");
+    }
+
+    const namePattern = /^[a-zA-ZÀ-ÿ\s]{2,}$/;
+    if (!namePattern.test(name)) {
+        errors.push("El nombre solo puede contener letras y espacios.");
     }
 
     if (height && (isNaN(height) || height < 100 || height > 250)) {
@@ -157,7 +172,7 @@ function showAnim() {
         $animacion.remove();
         return;
     }
-    
+
     $circulo.css({
         opacity: 0,
         transform: "scale(0.7)"
@@ -193,7 +208,7 @@ function removeModal() {
     deleteModal();
 }
 
-function restoreAnimModal(){
+function restoreAnimModal() {
     restoreAnim();
     location.reload(true);
 }
