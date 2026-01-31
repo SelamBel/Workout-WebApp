@@ -1,4 +1,4 @@
-import { logOutUsuario, getCurrentUser, getUsers, updateCurrentUser } from "./userLocalStorage.js";
+import { logOutUsuario, getCurrentUser, getUsers, updateCurrentUser, getComments, saveComment, deleteComment } from "./userLocalStorage.js";
 import Usuario from "./Usuario.js";
 import Entrenamiento from "./Entrenamiento.js";
 import * as CardMaker from "./cardMaker.js";
@@ -37,6 +37,7 @@ function bindEvents() {
     $("#submitAddWorkOut").on("click", submitWorkOut);
     $("#submitFindWorkOut").on("click", findWorkOut);
     $("#findBestWorkOut").on("click", findBestWorkOut);
+    $("#foroSubmitComment").on("click", submitComment);
 }
 
 function correctUserNameTitle() {
@@ -174,16 +175,16 @@ function findWorkOut() {
     toggleCards("card-findWorkOut");
     let fechaInicio = new Date($("#dateStart").val());
     let fechaFin = new Date($("#dateEnd").val());
-    
+
     fechaFin.setHours(23, 59, 59, 999);
-    
+
     let title = "Búsqueda entre " + $("#dateStart").val() + " y " + $("#dateEnd").val();
 
     if (fechaInicio > fechaFin) {
         const card = CardMaker.createCard();
         CardMaker.setCardTitle(card, title);
         const content = CardMaker.createCardContent(card);
-        CardMaker.addElement(content, "p", {text: "La fecha de inicio no puede ser mayor a la de fin."});
+        CardMaker.addElement(content, "p", { text: "La fecha de inicio no puede ser mayor a la de fin." });
         container.append(card);
         return;
     }
@@ -251,6 +252,66 @@ function showTotalKM() {
 
 function openForum() {
     toggleCards("card-foroContainer");
+    $("#foroNickDisplay").text("Comentando como " + currentUser.usuario);
+    loadComments();
+}
+
+function submitComment() {
+    let username = currentUser.usuario;
+    let comment = $("#foroComentario").val();
+    let date = new Date();
+
+    const newComment = {
+        username: username,
+        comment: comment,
+        date: date
+    };
+
+    saveComment(newComment);
+    $("#foroComentario").val("");
+    loadComments();
+}
+
+function loadComments() {
+    const comments = getComments();
+    $("#commentList").empty();
+
+    if (comments.length === 0) {
+        $("#commentList").append($("<p>").addClass("mensaje-vacio").text("No hay comentarios aún. ¡Sé el primero en comentar!"));
+        return;
+    }
+
+    comments.forEach((comment, index) => {
+        const divComentario = $("<div>").addClass("comentarioCard").attr("data-index", index);
+
+        const pNick = $("<p>").addClass("comentario-nick");
+        pNick.append($("<strong>").text(comment.username));
+
+        const pComentario = $("<p>").addClass("comentario-texto").text(comment.comment);
+
+        const footerDiv = $("<div>").addClass("comentario-footer");
+        const pFecha = $("<p>").addClass("comentario-fecha");
+        const fecha = new Date(comment.date).toLocaleString('es-ES', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        pFecha.append($("<em>").text(fecha));
+
+        const btnEliminar = $("<button>").addClass("btnEliminarComentario").text("Eliminar");
+        btnEliminar.on("click",() => btnDeleteComment(index));
+
+        footerDiv.append(pFecha, btnEliminar);
+        divComentario.append(pNick, pComentario, footerDiv);
+        $("#commentList").append(divComentario);
+    });
+}
+
+function btnDeleteComment(index) {
+    deleteComment(index);
+    loadComments();
 }
 
 function toggleCards(cardId) {

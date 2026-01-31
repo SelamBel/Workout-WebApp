@@ -1,6 +1,6 @@
 :root {
   --bg1: #121212;
-  --bg2: #1e1e1e;
+  --bg2: #1a1a1a;
   --card: #1f1f1f;
   --primary: #ff5d5d;
   --accent: #da0303;
@@ -14,7 +14,7 @@
 
 :root.light {
   --bg1: #f5f5f5;
-  --bg2: #e0e0e0;
+  --bg2: #f3f3f3;
   --card: #ffffff;
   --primary: #4aa2ff;
   --accent: #0064cf;
@@ -84,6 +84,7 @@ button:hover {
   background-color: var(--accent);
   transform: scale(1.05);
   box-shadow: 3px 3px 3px 3px var(--box-shadow);
+  color: white;
 }
 
 input:not([type="radio"]), select, textarea {
@@ -147,11 +148,12 @@ ul.lista-entrenamientos > li {
   flex: 1;
 }
 
-#mainLogOutBtn{
-  background-color: #da0303;
+#mainLogOutBtn, .btnEliminarComentario {
+  background-color: #eb1d1d;
+  color: #fff;
 }
 
-#mainLogOutBtn:hover{
+#mainLogOutBtn:hover, .btnEliminarComentario:hover {
   background-color: #8d0101;
   color: white;
 }
@@ -249,6 +251,60 @@ ul.lista-entrenamientos > li {
   flex-grow: 1;
   max-width: 100%;
   box-sizing: border-box;
+}
+
+.commentSection h3 {
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 10px;
+}
+
+#commentList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.comentarioCard {
+  background-color: var(--bg2);
+  border-left: 4px solid var(--primary);
+  padding: 15px;
+  padding-left: 30px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.comentario-nick {
+  color: var(--primary);
+  margin: 0 0 10px 0;
+  font-size: 1.1em;
+}
+
+.comentario-texto {
+  margin: 10px 0;
+  line-height: 1.5;
+}
+
+.comentario-fecha {
+  color: var(--muted);
+  font-size: 0.85em;
+  margin: 0;
+}
+
+.mensaje-vacio {
+  text-align: center;
+  color: var(--muted);
+  padding: 20px;
+  font-style: italic;
+}
+
+.comentario-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
 }
 
 

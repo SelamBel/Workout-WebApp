@@ -6,6 +6,7 @@ const CURRENT_USER = "currentUser";
 const DELETE_MODAL = "deleteModal";
 const DELETE_ANIM = "deleteAnim";
 const THEME = "currentTheme";
+const FORUM = "forumComments";
 
 function obtenerUsuarios() {
     const usuariosJSON = localStorage.getItem(ALL_USERS);
@@ -138,3 +139,18 @@ export function restoreAnim() {
     localStorage.removeItem(DELETE_ANIM);
 }
 
+export function getComments() {
+    return JSON.parse(localStorage.getItem(FORUM)) || [];
+}
+
+export function saveComment(comment) {
+    const comments = getComments();
+    comments.push(comment);
+    localStorage.setItem(FORUM, JSON.stringify(comments));
+}
+
+export function deleteComment(index) {
+    const comments = getComments();
+    comments.splice(index, 1);
+    localStorage.setItem(FORUM, JSON.stringify(comments));
+}
