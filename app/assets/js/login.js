@@ -159,7 +159,9 @@ function checkValidity() {
 function showModal() {
     let choice = checkModal();
     if (choice) {
-        $("#modal").css("display", "none");
+        $("#modal").hide();
+    } else {
+        $("#modal").slideDown(500);
     }
 }
 
@@ -200,11 +202,11 @@ function showAnim() {
 }
 
 function closeModal() {
-    $("#modal").css("display", "none");
+    $("#modal").slideUp(500);
 }
 
 function removeModal() {
-    $("#modal").css("display", "none");
+    $("#modal").slideUp(500);
     deleteModal();
 }
 
