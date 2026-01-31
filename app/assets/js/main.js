@@ -129,9 +129,25 @@ function showWorkOuts() {
             minute: '2-digit'
         });
         CardMaker.addElement(cardEntrenamiento, "p", { text: `Fecha: ${fecha}`, class: "entrenamiento-fecha" });
+        const btnBorrar = CardMaker.addElement(cardEntrenamiento, "button", { text: `Borrar`, class: "btn-borrar-entrenamiento" });
+        $(btnBorrar).on('click', () => {
+            borrarEntrenamiento(index);
+        });
         lista.append(cardEntrenamiento);
     });
     container.append(card);
+}
+
+function borrarEntrenamiento(indice) {
+    if (confirm(`¿Estás seguro de que quieres borrar el entrenamiento #${indice + 1}?`)) {
+        currentUser.entrenamientos.splice(indice, 1);
+        
+        if (updateCurrentUser(currentUser)) {
+            showWorkOuts();
+        } else {
+            alert("Error al borrar el entrenamiento");
+        }
+    }
 }
 
 function findBestWorkOut() {
