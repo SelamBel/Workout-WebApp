@@ -4,6 +4,7 @@ import Entrenamiento from "./Entrenamiento.js";
 const ALL_USERS = "allUsers";
 const CURRENT_USER = "currentUser";
 const DELETE_MODAL = "deleteModal";
+const DELETE_ANIM = "deleteAnim";
 const THEME = "currentTheme";
 
 function obtenerUsuarios() {
@@ -124,3 +125,16 @@ export function checkTheme() {
 export function switchTheme(theme) {
     localStorage.setItem(THEME, theme);
 }
+
+export function checkAnim() {
+    return localStorage.getItem(DELETE_ANIM);
+}
+
+export function deleteAnim() {
+    localStorage.setItem(DELETE_ANIM, true);
+}
+
+export function restoreAnim() {
+    localStorage.removeItem(DELETE_ANIM);
+}
+

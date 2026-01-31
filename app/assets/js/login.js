@@ -1,4 +1,4 @@
-import { guardarUsuario, loginUsuario, checkModal, deleteModal } from "./userLocalStorage.js";
+import { guardarUsuario, loginUsuario, checkModal, deleteModal, checkAnim, deleteAnim, restoreAnim } from "./userLocalStorage.js";
 import Usuario from "./Usuario.js";
 
 const CURRENT_USER = "currentUser";
@@ -31,6 +31,7 @@ function bindEvents() {
 
     $("#modalExit").on("click", closeModal);
     $("#modalDelete").on("click", removeModal);
+    $("#modalAnimation").on("click", restoreAnimModal);
 }
 
 const images = ["1.jpeg", "2.jpeg", "3.jpeg", "4.jpeg"];
@@ -148,9 +149,15 @@ function showModal() {
 }
 
 function showAnim() {
+    debugger;
     const $animacion = $("#animacion");
     const $circulo = $("#animacion .circulo");
-
+    let delAnim = checkAnim();
+    if (delAnim) {
+        $animacion.remove();
+        return;
+    }
+    
     $circulo.css({
         opacity: 0,
         transform: "scale(0.7)"
@@ -171,11 +178,10 @@ function showAnim() {
     setTimeout(() => {
         $animacion.fadeOut(1000);
     }, 3000);
-
     setTimeout(() => {
         $animacion.remove();
     }, 4000);
-    
+    deleteAnim();
 }
 
 function closeModal() {
@@ -185,4 +191,9 @@ function closeModal() {
 function removeModal() {
     $("#modal").css("display", "none");
     deleteModal();
+}
+
+function restoreAnimModal(){
+    restoreAnim();
+    location.reload(true);
 }
