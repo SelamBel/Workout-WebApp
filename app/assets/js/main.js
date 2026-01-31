@@ -26,7 +26,7 @@ function bindEvents() {
     $("#mainLogOutBtn").on("click", logOut);
     $("#mainShowProfileBtn").on("click", showProfile);
     $("#mainShowUsersBtn").on("click", showUsers);
-    $("#mainOpenForum").on("click", notImplementedAlert);
+    $("#mainOpenForum").on("click", openForum);
 
     $("#mainAddWorkOuts").on("click", () => toggleCards("card-addWorkOut"));
     $("#mainShowWorkOuts").on("click", showWorkOuts);
@@ -249,13 +249,13 @@ function showTotalKM() {
     container.append(card);
 }
 
+function openForum() {
+    toggleCards("card-foroContainer");
+}
+
 function toggleCards(cardId) {
     $(".created-card").remove()
     $(".toggle").removeClass("hidden");
     $(".toggle").addClass("hidden");
     $(`#${cardId}`).removeClass("hidden");
-}
-
-function notImplementedAlert() {
-    alert("Funcionalidad no implementada aún.");
 }

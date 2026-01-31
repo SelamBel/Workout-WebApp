@@ -221,6 +221,35 @@ ul.lista-entrenamientos > li {
   margin-top: 10px;
 }
 
+/* FORO */
+#card-foroContainer {
+  text-align: left;
+  align-items: stretch;
+  padding: 50px;
+}
+
+.foro-input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.foro-nick-display {
+  color: var(--primary);
+  font-weight: bold;
+  font-size: 1.1em;
+  margin: 0;
+}
+
+#foroComentario {
+  width: 100%;
+  resize: none;
+  overflow: hidden;
+  font-family: inherit;
+  flex-grow: 1;
+  max-width: 100%;
+  box-sizing: border-box;
+}
 
 
 @media (min-width: 870px) and (max-width: 1350px) {
