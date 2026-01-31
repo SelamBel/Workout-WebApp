@@ -11,6 +11,7 @@ function init() {
     checkSavedUser();
     bindEvents();
     startImageRotation();
+    showAnim();
     showModal();
 }
 
@@ -142,15 +143,46 @@ function checkValidity() {
 function showModal() {
     let choice = checkModal();
     if (choice) {
-        $("#modal").css("display",  "none");
+        $("#modal").css("display", "none");
     }
 }
 
+function showAnim() {
+    const $animacion = $("#animacion");
+    const $circulo = $("#animacion .circulo");
+
+    $circulo.css({
+        opacity: 0,
+        transform: "scale(0.7)"
+    }).show();
+
+    $circulo.animate(
+        { opacity: 1 },
+        {
+            duration: 1200,
+            easing: "easeOutExpo",
+            step: function () {
+                const progress = $(this).css("opacity");
+                $(this).css("transform", `scale(${0.7 + progress * 0.3})`);
+            }
+        }
+    );
+
+    setTimeout(() => {
+        $animacion.fadeOut(1000);
+    }, 3000);
+
+    setTimeout(() => {
+        $animacion.remove();
+    }, 4000);
+    
+}
+
 function closeModal() {
-    $("#modal").css("display",  "none");
+    $("#modal").css("display", "none");
 }
 
 function removeModal() {
-    $("#modal").css("display",  "none");
+    $("#modal").css("display", "none");
     deleteModal();
 }
