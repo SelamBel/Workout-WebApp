@@ -241,12 +241,14 @@ function showTotalKM() {
 
     let entrenamientos = currentUser.entrenamientos;
     let sumKM = 0;
+    let sumMinutos = 0;
     entrenamientos.forEach(entrenamiento => {
         sumKM += entrenamiento.distancia
+        sumMinutos += entrenamiento.tiempo;
     });
 
     const content = CardMaker.createCardContent(card);
-    CardMaker.addElement(content, "p", { text: `Has recorrido un total de ${sumKM} km. Bien hecho.` });
+    CardMaker.addElement(content, "p", { text: `Has recorrido un total de ${sumKM} km en un total de ${sumMinutos} minutos. Bien hecho.` });
     container.append(card);
 }
 
