@@ -87,7 +87,9 @@ button:hover {
   color: white;
 }
 
-input:not([type="radio"]), select, textarea {
+input:not([type="radio"]),
+select,
+textarea {
   background-color: var(--input-bg);
   color: var(--text);
   border: 1px solid var(--input-border);
@@ -98,7 +100,8 @@ input:not([type="radio"]), select, textarea {
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
-input:not([type="radio"]):focus, select:focus {
+input:not([type="radio"]):focus,
+select:focus {
   border-color: var(--primary);
   outline: none;
 }
@@ -118,14 +121,14 @@ h1 {
 }
 
 #themeToggle {
-    position: fixed;
-    top: 70px;
-    right: 70px;
-    background-color: var(--contrary-color);
+  position: fixed;
+  top: 70px;
+  right: 70px;
+  background-color: var(--contrary-color);
 }
 
-#themeToggle:hover{
-    background-color: var(--contrary-accent-color);
+#themeToggle:hover {
+  background-color: var(--contrary-accent-color);
 }
 
 .hidden {
@@ -144,16 +147,18 @@ ul.lista-entrenamientos {
   grid-template-columns: repeat(5, 1fr);
 }
 
-ul.lista-entrenamientos > li {
+ul.lista-entrenamientos>li {
   flex: 1;
 }
 
-#mainLogOutBtn, .btnEliminarComentario {
+#mainLogOutBtn,
+.btnEliminarComentario {
   background-color: #eb1d1d;
   color: #fff;
 }
 
-#mainLogOutBtn:hover, .btnEliminarComentario:hover {
+#mainLogOutBtn:hover,
+.btnEliminarComentario:hover {
   background-color: #8d0101;
   color: white;
 }
@@ -308,58 +313,59 @@ ul.lista-entrenamientos > li {
 }
 
 #messageBox {
-    position: relative;
-    background-color: var(--card);
-    border: 1px solid var(--input-border);
-    border-radius: 10px;
-    padding: 25px 35px;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  background-color: var(--card);
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  padding: 25px 35px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 #closeBox {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 1.5em;
-    cursor: pointer;
-    color: var(--primary);
-    transition: color 0.2s ease;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: var(--primary);
+  transition: color 0.2s ease;
 }
 
 #closeBox:hover {
-    color: var(--accent);
+  color: var(--accent);
 }
 
 #authorContainer {
-    position: fixed;
-    top: 70px;
-    left: 70px;
-    background-color: var(--bg2);
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid var(--input-border);
+  position: fixed;
+  z-index: 1;
+  top: 70px;
+  left: 70px;
+  background-color: var(--bg2);
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--input-border);
 }
 
 #authorName {
-    color: var(--primary);
-    cursor: pointer;
-    font-weight: 600;
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: 600;
 }
 
 #authorInfo {
-    background-color: var(--card);
-    border: 1px solid var(--input-border);
-    border-radius: 8px;
-    padding: 15px;
-    margin-top: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    white-space: nowrap;
+  background-color: var(--card);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  padding: 15px;
+  margin-top: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
 }
 
 #authorInfo p {
-    margin: 5px 0;
-    color: var(--text);
+  margin: 5px 0;
+  color: var(--text);
 }
 
 a {
@@ -374,13 +380,13 @@ a:hover {
 
 
 @media (min-width: 870px) and (max-width: 1350px) {
-    ul {
-      grid-template-columns: repeat(3, 1fr);
-    }
+  ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 869px) {
-    ul {
-      grid-template-columns: repeat(1, 1fr);
-    }
+  ul {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
