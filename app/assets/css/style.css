@@ -307,6 +307,30 @@ ul.lista-entrenamientos > li {
   margin-top: 10px;
 }
 
+#messageBox {
+    position: relative;
+    background-color: var(--card);
+    border: 1px solid var(--input-border);
+    border-radius: 10px;
+    padding: 25px 35px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#closeBox {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: var(--text);
+    transition: color 0.2s ease;
+}
+
+#closeBox:hover {
+    color: var(--primary);
+}
+
 
 @media (min-width: 870px) and (max-width: 1350px) {
     ul {

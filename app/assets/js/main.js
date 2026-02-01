@@ -13,6 +13,7 @@ function init() {
     exitIfNotLogged();
     bindEvents();
     correctUserNameTitle();
+    showMessageBox();
 }
 
 function exitIfNotLogged() {
@@ -23,6 +24,8 @@ function exitIfNotLogged() {
 }
 
 function bindEvents() {
+    $("#closeBox").on("click", () => $("#messageBox").slideUp(500));
+
     $("#mainLogOutBtn").on("click", logOut);
     $("#mainShowProfileBtn").on("click", showProfile);
     $("#mainShowUsersBtn").on("click", showUsers);
@@ -303,7 +306,7 @@ function loadComments() {
         pFecha.append($("<em>").text(fecha));
 
         const btnEliminar = $("<button>").addClass("btnEliminarComentario").text("Eliminar");
-        btnEliminar.on("click",() => btnDeleteComment(index));
+        btnEliminar.on("click", () => btnDeleteComment(index));
 
         footerDiv.append(pFecha, btnEliminar);
         divComentario.append(pNick, pComentario, footerDiv);
@@ -314,6 +317,10 @@ function loadComments() {
 function btnDeleteComment(index) {
     deleteComment(index);
     loadComments();
+}
+
+function showMessageBox() {
+    $("#messageBox").slideDown(800);
 }
 
 function toggleCards(cardId) {
