@@ -158,27 +158,24 @@ function checkValidity() {
 
 function showModal() {
     let choice = checkModal();
-    if (choice) {
-        $("#modal").hide();
-    } else {
-        $("#modal").slideDown(500);
+    if (!choice) {
+        $("#modal").slideDown(500).css("display", "flex");
     }
 }
 
 function showAnim() {
-    debugger;
     const $animacion = $("#animacion");
     const $circulo = $("#animacion .circulo");
     let delAnim = checkAnim();
     if (delAnim) {
-        $animacion.remove();
         return;
     }
 
+    $animacion.show();
     $circulo.css({
         opacity: 0,
         transform: "scale(0.7)"
-    }).show();
+    });
 
     $circulo.animate(
         { opacity: 1 },
