@@ -14,7 +14,7 @@
 
 :root.light {
   --bg1: #f5f5f5;
-  --bg2: #f3f3f3;
+  --bg2: #ebebeb;
   --card: #ffffff;
   --primary: #4aa2ff;
   --accent: #0064cf;
@@ -323,12 +323,43 @@ ul.lista-entrenamientos > li {
     right: 15px;
     font-size: 1.5em;
     cursor: pointer;
-    color: var(--text);
+    color: var(--primary);
     transition: color 0.2s ease;
 }
 
 #closeBox:hover {
+    color: var(--accent);
+}
+
+#authorContainer {
+    position: fixed;
+    top: 70px;
+    left: 70px;
+    background-color: var(--bg2);
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--input-border);
+}
+
+#authorName {
     color: var(--primary);
+    cursor: pointer;
+    font-weight: 600;
+}
+
+#authorInfo {
+    background-color: var(--card);
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+}
+
+#authorInfo p {
+    margin: 5px 0;
+    color: var(--text);
 }
 
 

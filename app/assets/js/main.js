@@ -25,6 +25,10 @@ function exitIfNotLogged() {
 
 function bindEvents() {
     $("#closeBox").on("click", () => $("#messageBox").slideUp(500));
+    $("#authorName").hover(
+        () => $("#authorInfo").fadeIn(500),
+        () => $("#authorInfo").fadeOut(500)
+    );
 
     $("#mainLogOutBtn").on("click", logOut);
     $("#mainShowProfileBtn").on("click", showProfile);
