@@ -1,0 +1,299 @@
+==============================================================================
+        DOCUMENTACION - PRACTICA FINAL TEMAS 3, 4, 5 Y 6
+                    WebApp WorkOut
+==============================================================================
+
+Esta documentación explica qué se ha realizado en cada parte del proyecto,
+organizada por temas y funcionalidades. El objetivo es que cualquier persona
+pueda entender la estructura y el funcionamiento de la aplicación.
+
+------------------------------------------------------------------------------
+                    ESTRUCTURA DEL PROYECTO
+------------------------------------------------------------------------------
+
+index.html              - Página de login y registro (entrada de la app)
+main.html               - Página principal tras autenticarse
+login.js                - Lógica de login, registro, animación y modal
+main.js                 - Lógica principal: entrenamientos, foro, búsquedas
+changeTheme.js          - Gestión del modo día/noche
+userLocalStorage.js     - Todas las operaciones con localStorage
+cardMaker.js            - Funciones para crear elementos DOM dinámicamente
+Usuario.js              - Clase Usuario con sus propiedades y métodos
+Entrenamiento.js        - Clase Entrenamiento con cálculos de velocidad y nivel
+style.css               - Estilos principales y responsive
+login.css               - Estilos específicos de la página de login
+
+------------------------------------------------------------------------------
+                    ARCHIVOS Y SUS RESPONSABILIDADES
+------------------------------------------------------------------------------
+
+index.html:
+  Estructura HTML de la página de login. Contiene el formulario de
+  login, el de registro, el slideshow de imágenes, la animación de
+  entrada y el modal de bienvenida.
+
+main.html:
+  Estructura HTML de la página principal. Contiene los botones del
+  menú, los formularios de añadir entrenamiento, buscar por fechas,
+  filtrar mejor entrenamiento y el foro.
+
+login.js:
+  Gestiona toda la lógica de la página de login: autenticación,
+  registro, validación de formularios, slideshow de imágenes,
+  animación de entrada y modal de bienvenida.
+
+main.js:
+  Gestiona la lógica de la página principal: mostrar perfil,
+  usuarios, entrenamientos, búsqueda por fechas, mejor entrenamiento,
+  total de km y el foro.
+
+changeTheme.js:
+  Gestiona el tema visual. Al cargar la página aplica el tema
+  guardado en localStorage. El botón de tema intercambia la clase
+  "light" en el html.
+
+userLocalStorage.js:
+  Centraliza todas las operaciones con localStorage. Exporta funciones
+  para: guardar/login/logout de usuarios, obtener usuario actual,
+  actualizar usuario, gestionar comentarios del foro, persistir el
+  tema y controlar la animación y modal.
+
+cardMaker.js:
+  Módulo de utilidades para crear elementos DOM. Exporta funciones
+  para crear cards, títulos, contenidos, contenedores y elementos
+  genéricos con texto, clases y atributos personalizables.
+
+Usuario.js:
+  Clase que representa un usuario. Almacena datos personales y un
+  array de entrenamientos. Incluye métodos para añadir entrenamientos
+  y comprobar igualdad entre usuarios.
+
+Entrenamiento.js:
+  Clase que representa un entrenamiento. Recibe distancia y tiempo,
+  y calcula automáticamente la velocidad, la fecha y el nivel de
+  esfuerzo.
+
+style.css:
+  Estilos principales de la aplicación. Incluye variables CSS para
+  los dos temas, estilos base, estilos de las cards de entrenamientos,
+  estilos del foro y queries de media para responsive.
+
+login.css:
+  Estilos específicos de la página de login: imagen del slideshow,
+  modal, animación y enlaces.
+
+------------------------------------------------------------------------------
+                TEMA 3 - ENTRENAMIENTOS (BASE DEL PROYECTO)
+------------------------------------------------------------------------------
+
+QUÉ se ha hecho:
+
+1. CLASE USUARIO (Usuario.js)
+   Se crea la clase Usuario que almacena los datos personales del usuario:
+   usuario, contraseña, nombre, correo, altura, peso, edad, genero y un
+   array de entrenamientos. Incluye métodos para añadir entrenamientos,
+   comprobar igualdad entre usuarios y mostrar información.
+
+2. CLASE ENTRENAMIENTO (Entrenamiento.js)
+   Se crea la clase Entrenamiento que recibe distancia (km) y tiempo (min).
+   Calcula automáticamente la velocidad (km/h) y la fecha del sistema.
+   También calcula el nivel de esfuerzo según la velocidad:
+   - Malo: velocidad menor de 8 km/h
+   - Bueno: velocidad entre 8 y 15 km/h
+   - Muy bueno: velocidad mayor de 15 km/h
+
+3. ALMACENAMIENTO EN LOCALSTORAGE (userLocalStorage.js)
+   Todos los datos se guardan en localStorage del navegador. Se mantienen
+   dos claves principales:
+   - "allUsers": array con todos los usuarios registrados
+   - "currentUser": el usuario que está logueado actualmente
+   Se incluyen funciones para reconstruir objetos Usuario y Entrenamiento
+   desde el JSON guardado en localStorage.
+
+4. AÑADIR ENTRENAMIENTO
+   En main.js, la función submitWorkOut() recoge la distancia y tiempo
+   de los inputs, crea un nuevo objeto Entrenamiento, lo añade al usuario
+   actual y actualiza localStorage mediante updateCurrentUser().
+
+5. MOSTRAR TODOS LOS ENTRENAMIENTOS
+   La función createWorkOutList() es reutilizable y se usa tanto para
+   mostrar todos los entrenamientos como para mostrar resultados filtrados.
+   Cada entrenamiento se representa como un DIV con sus campos como nodos
+   hijos (h3, p), añadidos mediante appendChild.
+
+6. MOSTRAR MEJOR ENTRENAMIENTO
+   La función findBestWorkOut() obtiene el método de filtrado seleccionado
+   (distancia, tiempo o velocidad) mediante inputs de tipo radio, y busca
+   el entrenamiento con el valor más alto para ese campo.
+
+7. TOTAL DE KM RECORRIDOS
+   La función showTotalKM() suma las distancias y los tiempos de todos
+   los entrenamientos del usuario y los muestra en una card.
+
+------------------------------------------------------------------------------
+            TEMA 4 - FORMULARIOS Y EVENTOS
+------------------------------------------------------------------------------
+
+QUÉ se ha hecho:
+
+1. FORMULARIOS
+   Se han creado dos formularios principales:
+   - Formulario de login: campos de usuario y contraseña
+   - Formulario de registro: campos de usuario, email, contraseña (con
+     confirmación), nombre, altura, peso, edad y un select de género
+   - Formulario de añadir entrenamiento: distancia y tiempo
+   Se han usado todos los elementos requeridos: buttons, inputs de texto,
+   number, password, email, radio, select y textarea (en el foro).
+
+2. VALIDACIÓN CON EXPRESIONES REGULARES
+   En login.js, la función checkValidity() valida todos los campos del
+   registro. Se usan expresiones regulares para:
+   - Email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ para comprobar formato válido
+   - Contraseña: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/ para exigir
+     al menos una mayúscula, una minúscula y un número
+   Se muestran mensajes de error específicos para cada campo incorrecto.
+
+3. GESTIÓN DE EVENTOS CON JQUERY
+   Todos los eventos se gestionan mediante jQuery usando .on("click"),
+   .on("click") con arrow functions para pasar parámetros, y .hover()
+   para eventos de ratón. Los eventos se asignan en la función bindEvents()
+   tanto en login.js como en main.js.
+
+4. INPUTS DE TIPO RADIO
+   Se usan tres inputs de tipo radio para filtrar el mejor entrenamiento
+   por distancia, tiempo o velocidad. El valor seleccionado se obtiene
+   con $('input[name="metodoFiltrado"]:checked').val().
+
+5. SLIDESHOW DE IMÁGENES
+   En index.html se muestra un slideshow de imágenes de ejercicio. La
+   función startImageRotation() en login.js cambia la imagen cada 5
+   segundos de forma automática con setInterval. También se puede cambiar
+   manualmente haciendo click en la imagen.
+
+6. OCULTAR Y MOSTRAR FORMULARIOS
+   La función toggleCards() en main.js gestiona la visibilidad de los
+   diferentes cards/formularios. Oculta todos los cards con clase "toggle"
+   y muestra únicamente el indicado, eliminando los cards creados
+   dinámicamente.
+
+------------------------------------------------------------------------------
+                TEMA 5 - DOM
+------------------------------------------------------------------------------
+
+QUÉ se ha hecho:
+
+1. ENTRENAMIENTOS COMO DIVS CON NODOS INTERNOS
+   La función createWorkOutList() en main.js crea cada entrenamiento como
+   un DIV (li con clase card-entrenamiento) y cada campo como un nodo
+   hijo usando createElement y appendChild mediante cardMaker.js:
+   - h3 para el título
+   - p para distancia, tiempo, velocidad, nivel de esfuerzo y fecha
+   Esto se hace a través de CardMaker.createContainer() y
+   CardMaker.addElement().
+
+2. BORRAR ENTRENAMIENTOS
+   Cada entrenamiento tiene un botón "Borrar". Al pulsarlo se llama a
+   borrarEntrenamiento(indice) que:
+   - Muestra un confirm() para que el usuario confirme
+   - Elimina el entrenamiento del array con splice()
+   - Actualiza localStorage con updateCurrentUser()
+   - Recarga la lista de entrenamientos automáticamente
+
+3. USO DE GETATTRIBUTE Y SETATTRIBUTE
+   En cardMaker.js, la función addElement() soporta un parámetro "attrs"
+   que permite añadir o modificar atributos de los elementos mediante
+   setAttribute(). Se usa por ejemplo con data-index en los comentarios
+   del foro mediante .attr() de jQuery.
+
+4. CAMBIO DE ESTÉTICA (MODO DÍA/NOCHE)
+   Se implementan dos temas mediante variables CSS en :root y :root.light.
+   El botón "Tema" (themeToggle) activa la clase "light" en el elemento
+   html mediante toggleClass. El tema seleccionado se guarda en
+   localStorage para que persista entre sesiones. La lógica se gestiona
+   en changeTheme.js.
+
+5. MODAL DE BIENVENIDA
+   En index.html se muestra un modal al entrar por primera vez. Tiene
+   tres opciones:
+   - Salir: oculta el modal temporalmente
+   - No volver a mostrar: oculta y guarda la preferencia en localStorage
+   - Volver a ver animación: restaura la animación de entrada
+   El modal se muestra/oculta con slideDown/slideUp de jQuery.
+
+6. FORO DE COMENTARIOS
+   Se implementa un foro en main.html donde:
+   - Se muestra el nick del usuario logueado
+   - Se usa un textarea para escribir comentarios
+   - Los comentarios se añaden mediante appendChild con jQuery (.append())
+   - Cada comentario muestra: nick, texto y fecha formateada
+   - Se puede eliminar cualquier comentario
+   - Los comentarios se guardan en localStorage bajo la clave
+     "forumComments"
+   Las funciones principales son: openForum(), submitComment(),
+   loadComments() y btnDeleteComment().
+
+7. BÚSQUEDA DE ENTRENAMIENTOS ENTRE FECHAS
+   Se añaden dos inputs de tipo date para seleccionar un rango de fechas.
+   La función setUpFindWorkOuts() configura los valores iniciales:
+   - Fecha inicio: primer día del mes actual
+   - Fecha fin: fecha actual
+   La función findWorkOut() filtra los entrenamientos comprobando que su
+   fecha esté dentro del rango seleccionado. Se establece la hora final
+   del día de fin (23:59:59) para incluir todos los entrenamientos de
+   ese día. Los resultados se muestran reutilizando createWorkOutList().
+
+------------------------------------------------------------------------------
+                TEMA 6 - JQUERY
+------------------------------------------------------------------------------
+
+QUÉ se ha hecho:
+
+1. AÑADIR ENTRENAMIENTOS CON JQUERY
+   En createWorkOutList() y loadComments() se usa jQuery .append() para
+   añadir los elementos al DOM. Los comentarios del foro se crean
+   íntegramente con jQuery: $("<div>"), $("<p>"), $("<button>") etc,
+   encadenando .addClass(), .text() y .attr() para configurarlos.
+
+2. ANIMACIÓN AL ACCEDER CON ANIMATE()
+   En login.js, la función showAnim() implementa una animación de
+   entrada cuando el usuario accede por primera vez:
+   - Se muestra un círculo con el título de la app y un GIF
+   - El círculo aparece con una animación de escala usando animate()
+     con un efecto easeOutExpo
+   - Se usa el parámetro "step" para sincronizar la opacidad con la
+     escala
+   - Después de 3 segundos se oculta con fadeOut()
+   La animación se marca como vista en localStorage para no repetirla,
+   con opción de restaurarla desde el modal.
+
+3. SLIDE CON CUADRO QUE SE CIERRE CON X
+   El modal de bienvenida en index.html se muestra usando slideDown()
+   y se oculta con slideUp() de jQuery. Como slideDown añade
+   display:block y el modal necesita display:flex para centrarse,
+   se aplica .css("display", "flex") después del slideDown.
+
+4. NOMBRE EN ESQUINA CON FADE AL HOVER
+   En main.html se añade un elemento con el nombre del autor en la
+   esquina superior izquierda. Al pasar el ratón encima aparece un
+   cuadro con información del desarrollador usando fadeIn(). Al
+   retirar el ratón desaparece con fadeOut(). Se implementa con
+   jQuery .hover() que recibe dos callbacks: uno para mouseenter
+   y otro para mouseleave.
+
+5. USO DEL MÉTODO CSS() DE JQUERY
+   Se usa .css() en varios lugares:
+   - En showAnim() para establecer propiedades iniciales de la
+     animación (opacity, transform)
+   - En showModal() para controlar la visibilidad del modal
+   - En el efecto de slideDown del modal para forzar display:flex
+   - En la función step de animate() para actualizar el transform
+     durante la animación
+
+6. MODO DÍA/NOCHE
+   Se implementa mediante clases CSS con variables. La clase "light"
+   en el elemento html activa el tema claro. Todas las variables CSS
+   cambian automáticamente al añadir/quitar esta clase. El estado
+   se persiste en localStorage mediante las funciones checkTheme()
+   y switchTheme() en userLocalStorage.js.
+
+==============================================================================
