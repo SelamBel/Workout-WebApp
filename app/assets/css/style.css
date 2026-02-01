@@ -362,6 +362,16 @@ ul.lista-entrenamientos > li {
     color: var(--text);
 }
 
+a {
+  text-decoration: none;
+  color: var(--primary);
+  transition: color 0.1s ease;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
 
 @media (min-width: 870px) and (max-width: 1350px) {
     ul {

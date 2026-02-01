@@ -25,7 +25,7 @@ function exitIfNotLogged() {
 
 function bindEvents() {
     $("#closeBox").on("click", () => $("#messageBox").slideUp(500));
-    $("#authorName").hover(
+    $("#authorContainer").hover(
         () => $("#authorInfo").fadeIn(500),
         () => $("#authorInfo").fadeOut(500)
     );
