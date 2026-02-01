@@ -36,3 +36,16 @@
 button {
   margin: 10px;
 }
+
+@media (max-width: 1024px) {
+  #rotationImage {
+    max-width: 60%;
+  }
+}
+
+@media (max-width: 869px) {
+  #rotationImage {
+    max-width: 100%;
+  }
+}
+

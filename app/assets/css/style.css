@@ -379,14 +379,77 @@ a:hover {
 }
 
 
-@media (min-width: 870px) and (max-width: 1350px) {
-  ul {
-    grid-template-columns: repeat(3, 1fr);
+@media (max-width: 1150px) {
+    ul.lista-entrenamientos {
+    grid-template-columns: 1fr 1fr 1fr;
   }
+
 }
 
+/* Movil */
 @media (max-width: 869px) {
+  body {
+    padding: 20px;
+    margin-top: 70px;
+  }
+
   ul {
     grid-template-columns: repeat(1, 1fr);
   }
+
+  .card {
+    padding: 20px;
+  }
+
+  .card-content {
+    gap: 15px;
+  }
+
+  .card-content p {
+    margin: 0;
+  }
+
+  input:not([type="radio"]),
+  select,
+  textarea {
+    min-width: 80%;
+    max-width: 80%;
+    box-sizing: border-box;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  #themeToggle {
+    top: 30px;
+    right: 30px;
+  }
+
+  #authorContainer {
+    top: 30px;
+    left: 30px;
+  }
+
+  #card-foroContainer {
+    padding: 15px;
+  }
+
+  #rotationImage {
+    max-width: 80%;
+  }
+
+  #animacion .circulo {
+    width: 70%;
+  }
+
+  ul.lista-entrenamientos {
+    grid-template-columns: 1fr ;
+  }
+
+  .card-entrenamiento p {
+    margin-bottom: 10px ;
+  }
+
+
 }
