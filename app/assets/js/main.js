@@ -84,13 +84,43 @@ function showUsers() {
     container.append(card);
 }
 
-function submitWorkOut() {
-    $(".created-card").remove()
-    const distancia = parseFloat($("#distancia").val());
-    const tiempo = parseFloat($("#tiempo").val());
+function parseDistancia(input) {
+    const valor = input.trim().toLowerCase();
+    const kmMatch = valor.match(/^([\d.]+)\s*km$/);
+    const mMatch = valor.match(/^([\d.]+)\s*m$/);
+    const soloNumero = valor.match(/^([\d.]+)$/);
 
-    if (isNaN(distancia) || isNaN(tiempo) || distancia <= 0 || tiempo <= 0) {
-        alert("Por favor, ingrese valores válidos para distancia y tiempo.");
+    if (kmMatch) return parseFloat(kmMatch[1]);
+    if (mMatch) return parseFloat(mMatch[1]) / 1000;
+    if (soloNumero) return parseFloat(soloNumero[1]); // por defecto km
+    return NaN;
+}
+
+function parseTiempo(input) {
+    const valor = input.trim().toLowerCase();
+    const hMinMatch = valor.match(/^(\d+)\s*h\s*([\d.]+)\s*min$/);
+    const hMatch = valor.match(/^([\d.]+)\s*h$/);
+    const minMatch = valor.match(/^([\d.]+)\s*min$/);
+    const soloNumero = valor.match(/^([\d.]+)$/);
+
+    if (hMinMatch) return parseInt(hMinMatch[1]) * 60 + parseFloat(hMinMatch[2]);
+    if (hMatch) return parseFloat(hMatch[1]) * 60;
+    if (minMatch) return parseFloat(minMatch[1]);
+    if (soloNumero) return parseFloat(soloNumero[1]); // por defecto minutos
+    return NaN;
+}
+
+function submitWorkOut() {
+    $(".created-card").remove();
+    const distancia = parseDistancia($("#distancia").val());
+    const tiempo = parseTiempo($("#tiempo").val());
+
+    if (isNaN(distancia) || distancia <= 0) {
+        alert("Formato de distancia no válido. Ej: 5km, 3500m o 5");
+        return;
+    }
+    if (isNaN(tiempo) || tiempo <= 0) {
+        alert("Formato de tiempo no válido. Ej: 1h 30min, 90min o 90");
         return;
     }
 
@@ -129,7 +159,7 @@ function createWorkOutList(entrenamientos, titulo) {
         const cardEntrenamiento = CardMaker.createContainer(lista, "li", "card-entrenamiento");
         CardMaker.addElement(cardEntrenamiento, "h3", { text: `Entrenamiento #${index + 1}`, class: `entrenamiento-titulo` });
         CardMaker.addElement(cardEntrenamiento, "p", { text: `Distancia: ${entrenamiento.distancia} km`, class: "entrenamiento-distancia" });
-        CardMaker.addElement(cardEntrenamiento, "p", { text: `Tiempo: ${entrenamiento.tiempo} min`, class: "entrenamiento-tiempo" });
+        CardMaker.addElement(cardEntrenamiento, "p", { text: `Tiempo: ${entrenamiento.tiempo} min (${(entrenamiento.tiempo/60).toFixed(1)} horas)`, class: "entrenamiento-tiempo" });
         CardMaker.addElement(cardEntrenamiento, "p", { text: `Velocidad: ${entrenamiento.velocidad} km/h`, class: "entrenamiento-velocidad" });
         CardMaker.addElement(cardEntrenamiento, "p", { text: `Nivel de esfuerzo: ${entrenamiento.nivelEsfuerzo}`, class: "entrenamiento-esfuerzo" });
 
@@ -227,7 +257,7 @@ function findBestWorkOut() {
 
     const ulBestWorkOut = CardMaker.createContainer(content, "ul", "best-workout");
     CardMaker.addElement(ulBestWorkOut, "li", { text: `Distancia: ${mejorEntrenamiento.distancia} km` });
-    CardMaker.addElement(ulBestWorkOut, "li", { text: `Tiempo: ${mejorEntrenamiento.tiempo} min` });
+    CardMaker.addElement(ulBestWorkOut, "li", { text: `Tiempo: ${mejorEntrenamiento.tiempo} min (${(mejorEntrenamiento.tiempo/60).toFixed(1)} horas)` });
     CardMaker.addElement(ulBestWorkOut, "li", { text: `Velocidad: ${mejorEntrenamiento.velocidad}` });
     CardMaker.addElement(ulBestWorkOut, "li", { text: `Nivel: ${mejorEntrenamiento.nivelEsfuerzo}` });
     const fecha = new Date(mejorEntrenamiento.fecha).toLocaleString('es-ES', {
@@ -255,7 +285,7 @@ function showTotalKM() {
     });
 
     const content = CardMaker.createCardContent(card);
-    CardMaker.addElement(content, "p", { text: `Has recorrido un total de ${sumKM} km en un total de ${sumMinutos} minutos. Bien hecho.` });
+    CardMaker.addElement(content, "p", { text: `Has recorrido un total de ${sumKM.toFixed(2)} km en un total de ${sumMinutos.toFixed(2)} minutos (${(sumMinutos/60).toFixed(1)} horas). Bien hecho.` });
     container.append(card);
 }
 
