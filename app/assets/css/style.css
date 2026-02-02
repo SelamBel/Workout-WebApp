@@ -78,9 +78,10 @@ button {
   max-width: fit-content;
   font-weight: 600;
   box-shadow: 1px 1px 3px 1px var(--box-shadow);
+  width: 100%;
 }
 
-button:hover {
+button:hover:not([class*="carousel"]) {
   background-color: var(--accent);
   transform: scale(1.05);
   box-shadow: 3px 3px 3px 3px var(--box-shadow);
@@ -380,7 +381,7 @@ a:hover {
 
 
 @media (max-width: 1150px) {
-    ul.lista-entrenamientos {
+  ul.lista-entrenamientos {
     grid-template-columns: 1fr 1fr 1fr;
   }
 
@@ -417,10 +418,6 @@ a:hover {
     box-sizing: border-box;
   }
 
-  button {
-    width: 100%;
-  }
-
   #themeToggle {
     top: 30px;
     right: 30px;
@@ -444,11 +441,11 @@ a:hover {
   }
 
   ul.lista-entrenamientos {
-    grid-template-columns: 1fr ;
+    grid-template-columns: 1fr;
   }
 
   .card-entrenamiento p {
-    margin-bottom: 10px ;
+    margin-bottom: 10px;
   }
 
 

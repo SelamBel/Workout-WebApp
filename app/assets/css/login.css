@@ -1,7 +1,3 @@
-#rotationImage {
-  max-width: 40%;
-}
-
 #modal,
 #animacion {
   position: absolute;
@@ -37,15 +33,18 @@ button {
   margin: 10px;
 }
 
+#gallery img {
+  max-width: 40%;
+}
+
 @media (max-width: 1024px) {
-  #rotationImage {
-    max-width: 60%;
+  #gallery img {
+    max-width: 70%;
   }
 }
 
 @media (max-width: 869px) {
-  #rotationImage {
+  #gallery img {
     max-width: 100%;
   }
 }
-

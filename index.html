@@ -6,10 +6,16 @@
   <title>Practica Final Tema 4</title>
   <link rel="stylesheet" href="app/assets/css/style.css" />
   <link rel="stylesheet" href="app/assets/css/login.css" />
+
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+
+
   <script type="module" src="app/assets/js/login.js"></script>
   <script type="module" src="app/assets/js/changeTheme.js"></script>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -58,7 +64,25 @@
       </div>
     </div>
     <div class="card">
-      <img src="app/assets/images/1.jpeg" alt="Imagen de ejercicio" id="rotationImage" />
+      <div id="gallery">
+        <a href="app/assets/images/1.jpeg" data-fancybox="gallery" data-caption="Foto 1">
+          <img src="app/assets/images/1.jpeg" />
+        </a>
+
+        <a href="app/assets/images/2.jpeg" data-fancybox="gallery" data-caption="Foto 2">
+          <img src="app/assets/images/2.jpeg" style="display:none;" />
+        </a>
+
+        <a href="app/assets/images/3.jpeg" data-fancybox="gallery" data-caption="Foto 3">
+          <img src="app/assets/images/3.jpeg" style="display:none;" />
+        </a>
+
+        <a href="app/assets/images/4.jpeg" data-fancybox="gallery" data-caption="Foto 4">
+          <img src="app/assets/images/4.jpeg" style="display:none;" />
+        </a>
+      </div>
+
+
     </div>
   </div>
 
