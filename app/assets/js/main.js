@@ -92,7 +92,7 @@ function parseDistancia(input) {
 
     if (kmMatch) return parseFloat(kmMatch[1]);
     if (mMatch) return parseFloat(mMatch[1]) / 1000;
-    if (soloNumero) return parseFloat(soloNumero[1]); // por defecto km
+    if (soloNumero) return parseFloat(soloNumero[1]);
     return NaN;
 }
 
@@ -106,7 +106,7 @@ function parseTiempo(input) {
     if (hMinMatch) return parseInt(hMinMatch[1]) * 60 + parseFloat(hMinMatch[2]);
     if (hMatch) return parseFloat(hMatch[1]) * 60;
     if (minMatch) return parseFloat(minMatch[1]);
-    if (soloNumero) return parseFloat(soloNumero[1]); // por defecto minutos
+    if (soloNumero) return parseFloat(soloNumero[1]);
     return NaN;
 }
 
@@ -124,7 +124,6 @@ function submitWorkOut() {
         return;
     }
 
-        CardMaker.addElement(content, "p", { text: `Ha habido un error actualizando el usuario.` });
     Promise.all([getRandomTrainer(), getCurrentCityAndTemp()])
         .then(function ([entrenador, resultado]) {
             const entrenamiento = new Entrenamiento(distancia, tiempo, null, entrenador, resultado.ciudad, resultado.temperatura);
@@ -175,13 +174,14 @@ function createWorkOutList(entrenamientos, titulo) {
             hour: '2-digit',
             minute: '2-digit'
         });
+        CardMaker.addElement(cardEntrenamiento, "p", { text: `Entrenador: ${entrenamiento.entrenador}` });
         CardMaker.addElement(cardEntrenamiento, "p", { text: `Fecha: ${fecha}`, class: "entrenamiento-fecha" });
 
-        CardMaker.addElement(cardEntrenamiento, "p", { text: `Entrenador: ${entrenamiento.entrenador}`, class: "entrenamiento-fecha" });
-        CardMaker.addElement(cardEntrenamiento, "p", { text: `Ciudad: ${entrenamiento.ciudad}`, class: "entrenamiento-fecha" });
-        CardMaker.addElement(cardEntrenamiento, "p", { text: `Temperatura: ${entrenamiento.temperatura}`, class: "entrenamiento-fecha" });
-        
-        
+        const footer = CardMaker.createContainer(cardEntrenamiento, "div", "workout-footer");
+        CardMaker.addElement(footer, "p", { text: `Ciudad: ${entrenamiento.ciudad}`, class: "entrenamiento-fecha" });
+        CardMaker.addElement(footer, "p", { text: `Temperatura: ${entrenamiento.temperatura}º`, class: "entrenamiento-fecha" });
+
+
         const btnBorrar = CardMaker.addElement(cardEntrenamiento, "button", { text: `Borrar`, class: "btn-borrar-entrenamiento" });
         $(btnBorrar).on('click', () => {
             borrarEntrenamiento(index);

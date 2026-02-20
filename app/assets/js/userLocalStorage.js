@@ -18,6 +18,9 @@ function reconstruirUsuarioDesdeJSON(u) {
         const entr = new Entrenamiento(e.distancia, e.tiempo);
         entr.fecha = new Date(e.fecha);
         entr.nivelEsfuerzo = e.nivelEsfuerzo;
+        entr.entrenador = e.entrenador;
+        entr.ciudad = e.ciudad;
+        entr.temperatura = e.temperatura;
         return entr;
     }) || [];
 
@@ -48,7 +51,10 @@ function convertirUsuarioAJSON(u) {
             distancia: e.distancia,
             tiempo: e.tiempo,
             fecha: e.fecha,
-            nivelEsfuerzo: e.nivelEsfuerzo
+            nivelEsfuerzo: e.nivelEsfuerzo,
+            entrenador: e.entrenador,
+            ciudad: e.ciudad,
+            temperatura: e.temperatura
         }))
     };
 }

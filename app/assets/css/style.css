@@ -85,7 +85,7 @@ button:hover:not([class*="carousel"]) {
   background-color: var(--accent);
   transform: scale(1.05);
   box-shadow: 3px 3px 3px 3px var(--box-shadow);
-  color: white;
+  color:  var(--text);
 }
 
 input:not([type="radio"]),
@@ -161,7 +161,7 @@ ul.lista-entrenamientos>li {
 #mainLogOutBtn:hover,
 .btnEliminarComentario:hover {
   background-color: #8d0101;
-  color: white;
+  color: var(--text);
 }
 
 /* Estilos para lista de entrenamientos */
@@ -227,6 +227,11 @@ ul.lista-entrenamientos>li {
   opacity: 0.8;
   font-style: italic;
   margin-top: 10px;
+}
+
+.workout-footer {
+  display: flex;
+  justify-content: space-between;
 }
 
 /* FORO */
