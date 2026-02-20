@@ -124,18 +124,23 @@ function submitWorkOut() {
         return;
     }
 
-    const entrenamiento = new Entrenamiento(distancia, tiempo);
-    currentUser.añadirEntrenamiento(entrenamiento);
-
-    const card = CardMaker.createCard();
-    CardMaker.setCardTitle(card, "Resultado de añadir entrenamiento");
-    const content = CardMaker.createCardContent(card);
-    if (updateCurrentUser(currentUser)) {
-        CardMaker.addElement(content, "p", { text: `Se ha creado con exito.` });
-    } else {
         CardMaker.addElement(content, "p", { text: `Ha habido un error actualizando el usuario.` });
-    }
-    container.append(card);
+    Promise.all([getRandomTrainer(), getCurrentCityAndTemp()])
+        .then(function ([entrenador, resultado]) {
+            const entrenamiento = new Entrenamiento(distancia, tiempo, null, entrenador, resultado.ciudad, resultado.temperatura);
+            currentUser.añadirEntrenamiento(entrenamiento);
+            const card = CardMaker.createCard();
+            CardMaker.setCardTitle(card, "Resultado de añadir entrenamiento");
+            const content = CardMaker.createCardContent(card);
+            if (updateCurrentUser(currentUser)) {
+                CardMaker.addElement(content, "p", { text: `Se ha creado con exito.` });
+            } else {
+                CardMaker.addElement(content, "p", { text: `Ha habido un error actualizando el usuario.` });
+            }
+            container.append(card);
+        }).catch(function (error) {
+            CardMaker.addElement(content, "p", { text: `Ha habido un error actualizando el usuario.` });
+        });;
 }
 
 function showWorkOuts() {
@@ -159,7 +164,7 @@ function createWorkOutList(entrenamientos, titulo) {
         const cardEntrenamiento = CardMaker.createContainer(lista, "li", "card-entrenamiento");
         CardMaker.addElement(cardEntrenamiento, "h3", { text: `Entrenamiento #${index + 1}`, class: `entrenamiento-titulo` });
         CardMaker.addElement(cardEntrenamiento, "p", { text: `Distancia: ${entrenamiento.distancia} km`, class: "entrenamiento-distancia" });
-        CardMaker.addElement(cardEntrenamiento, "p", { text: `Tiempo: ${entrenamiento.tiempo} min (${(entrenamiento.tiempo/60).toFixed(1)} horas)`, class: "entrenamiento-tiempo" });
+        CardMaker.addElement(cardEntrenamiento, "p", { text: `Tiempo: ${entrenamiento.tiempo} min (${(entrenamiento.tiempo / 60).toFixed(1)} horas)`, class: "entrenamiento-tiempo" });
         CardMaker.addElement(cardEntrenamiento, "p", { text: `Velocidad: ${entrenamiento.velocidad} km/h`, class: "entrenamiento-velocidad" });
         CardMaker.addElement(cardEntrenamiento, "p", { text: `Nivel de esfuerzo: ${entrenamiento.nivelEsfuerzo}`, class: "entrenamiento-esfuerzo" });
 
@@ -172,6 +177,11 @@ function createWorkOutList(entrenamientos, titulo) {
         });
         CardMaker.addElement(cardEntrenamiento, "p", { text: `Fecha: ${fecha}`, class: "entrenamiento-fecha" });
 
+        CardMaker.addElement(cardEntrenamiento, "p", { text: `Entrenador: ${entrenamiento.entrenador}`, class: "entrenamiento-fecha" });
+        CardMaker.addElement(cardEntrenamiento, "p", { text: `Ciudad: ${entrenamiento.ciudad}`, class: "entrenamiento-fecha" });
+        CardMaker.addElement(cardEntrenamiento, "p", { text: `Temperatura: ${entrenamiento.temperatura}`, class: "entrenamiento-fecha" });
+        
+        
         const btnBorrar = CardMaker.addElement(cardEntrenamiento, "button", { text: `Borrar`, class: "btn-borrar-entrenamiento" });
         $(btnBorrar).on('click', () => {
             borrarEntrenamiento(index);
@@ -257,7 +267,7 @@ function findBestWorkOut() {
 
     const ulBestWorkOut = CardMaker.createContainer(content, "ul", "best-workout");
     CardMaker.addElement(ulBestWorkOut, "li", { text: `Distancia: ${mejorEntrenamiento.distancia} km` });
-    CardMaker.addElement(ulBestWorkOut, "li", { text: `Tiempo: ${mejorEntrenamiento.tiempo} min (${(mejorEntrenamiento.tiempo/60).toFixed(1)} horas)` });
+    CardMaker.addElement(ulBestWorkOut, "li", { text: `Tiempo: ${mejorEntrenamiento.tiempo} min (${(mejorEntrenamiento.tiempo / 60).toFixed(1)} horas)` });
     CardMaker.addElement(ulBestWorkOut, "li", { text: `Velocidad: ${mejorEntrenamiento.velocidad}` });
     CardMaker.addElement(ulBestWorkOut, "li", { text: `Nivel: ${mejorEntrenamiento.nivelEsfuerzo}` });
     const fecha = new Date(mejorEntrenamiento.fecha).toLocaleString('es-ES', {
@@ -285,7 +295,7 @@ function showTotalKM() {
     });
 
     const content = CardMaker.createCardContent(card);
-    CardMaker.addElement(content, "p", { text: `Has recorrido un total de ${sumKM.toFixed(2)} km en un total de ${sumMinutos.toFixed(2)} minutos (${(sumMinutos/60).toFixed(1)} horas). Bien hecho.` });
+    CardMaker.addElement(content, "p", { text: `Has recorrido un total de ${sumKM.toFixed(2)} km en un total de ${sumMinutos.toFixed(2)} minutos (${(sumMinutos / 60).toFixed(1)} horas). Bien hecho.` });
     container.append(card);
 }
 
@@ -351,6 +361,38 @@ function loadComments() {
 function btnDeleteComment(index) {
     deleteComment(index);
     loadComments();
+}
+
+function getRandomTrainer() {
+    return $.ajax({
+        url: "https://jsonplaceholder.typicode.com/users",
+        method: "GET"
+    }).then(function (usuarios) {
+        const indiceAleatorio = Math.floor(Math.random() * usuarios.length);
+        return usuarios[indiceAleatorio].name;
+    }).catch(function () {
+        return "Sel";
+    });
+}
+
+function getCurrentCityAndTemp() {
+    return new Promise(function (resolve) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var latitud = position.coords.latitude;
+            var longitud = position.coords.longitude;
+
+            fetch('http://api.openweathermap.org/data/2.5/weather?lat=' + latitud + '&lon=' + longitud + '&appid=3ff8e1bcbcdf5b2dfd6942bc7dab0cfe')
+                .then(response => response.json())
+                .then(data => {
+                    var temp = parseInt(data.main.temp) - 273;
+                    var ciudad = data.name;
+                    resolve({ ciudad: ciudad, temperatura: temp });
+                })
+                .catch(function (error) {
+                    resolve({ ciudad: "Elche", temperatura: "20" });
+                });
+        });
+    });
 }
 
 function showMessageBox() {

@@ -296,4 +296,8 @@ QUÉ se ha hecho:
    se persiste en localStorage mediante las funciones checkTheme()
    y switchTheme() en userLocalStorage.js.
 
+7. MEDIA QUERYS PARA MÓVIL
+   Se ha creado media querys para modificar el css y comportamiento de
+   la página para que esta sea visible en móvil.
+
 ==============================================================================
