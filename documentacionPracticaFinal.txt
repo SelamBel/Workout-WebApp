@@ -1,5 +1,5 @@
 ==============================================================================
-        DOCUMENTACION - PRACTICA FINAL TEMAS 3, 4, 5 Y 6
+        DOCUMENTACION - PRACTICA FINAL TEMAS 3, 4, 5, 6 Y 7
                     WebApp WorkOut
 ==============================================================================
 
@@ -299,5 +299,23 @@ QUÉ se ha hecho:
 7. MEDIA QUERYS PARA MÓVIL
    Se ha creado media querys para modificar el css y comportamiento de
    la página para que esta sea visible en móvil.
+
+------------------------------------------------------------------------------
+                TEMA 7 - AJAX
+------------------------------------------------------------------------------
+
+QUÉ se ha hecho:
+
+1. CARROUSEL INTERACTIVO DE FOTOS
+   En la página de login, cuando clickas las fotos que aparecen abajo, ahora
+   abren un carrusel de fotos de JQuery UI, como pedía el ejercicio.
+
+2. USO DE AJAX PARA GUARDAR LOCALIZACIÓN, TEMPERATURA, Y ENTRENADOR
+   Ahora, cuando creas un entrenamiento, a este se le asigna un nombre 
+   aleatorio de la API https://jsonplaceholder.typicode.com/users, junto a la
+   temperatura, y ubicación actual del usuario. Estos se guardan correctamente
+   en LocalStorage, pero si por algún casual había un entrenamiento ya creado
+   de antes de añadir esta nueva función, añadí defaults (Entrenador Sel, 
+   Ciudad Elche, y Temperatura 20º) para que no diera error.
 
 ==============================================================================

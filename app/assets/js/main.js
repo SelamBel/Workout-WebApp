@@ -174,12 +174,16 @@ function createWorkOutList(entrenamientos, titulo) {
             hour: '2-digit',
             minute: '2-digit'
         });
-        CardMaker.addElement(cardEntrenamiento, "p", { text: `Entrenador: ${entrenamiento.entrenador}` });
+
+        let entrenador = entrenamiento.entrenador === undefined ? "Sin Entrenador" : entrenamiento.entrenador;
+        let ciudad = entrenamiento.ciudad === undefined ? "Sin ubicación" : entrenamiento.ciudad;
+        let temperatura = entrenamiento.temperatura === undefined ? "Sin temperatura" : entrenamiento.temperatura + "º";
+        CardMaker.addElement(cardEntrenamiento, "p", { text: `Entrenador: ${entrenador}` });
         CardMaker.addElement(cardEntrenamiento, "p", { text: `Fecha: ${fecha}`, class: "entrenamiento-fecha" });
 
         const footer = CardMaker.createContainer(cardEntrenamiento, "div", "workout-footer");
-        CardMaker.addElement(footer, "p", { text: `Ciudad: ${entrenamiento.ciudad}`, class: "entrenamiento-fecha" });
-        CardMaker.addElement(footer, "p", { text: `Temperatura: ${entrenamiento.temperatura}º`, class: "entrenamiento-fecha" });
+        CardMaker.addElement(footer, "p", { text: `Ciudad: ${ciudad}`, class: "entrenamiento-fecha" });
+        CardMaker.addElement(footer, "p", { text: `Temperatura: ${temperatura}`, class: "entrenamiento-fecha" });
 
 
         const btnBorrar = CardMaker.addElement(cardEntrenamiento, "button", { text: `Borrar`, class: "btn-borrar-entrenamiento" });
